@@ -1,6 +1,6 @@
 # Darsi (دَرْسي) — Testing Strategy
 
-> Status: **🔄 Draft for review (Stage A revision)** · 2026-11-23
+> Status: **✅ Approved (Stage A revision)** · 2026-11-23
 > This revision follows the Stage A scope and architecture v3 (PLAN.md D-24 to D-43). The earlier version (approved 2026-11-22) stays in git history.
 > Architecture: [02-architecture.md](02-architecture.md) · Scope: [01-mvp-scope.md](01-mvp-scope.md) · Decisions: [../PLAN.md](../PLAN.md)
 
