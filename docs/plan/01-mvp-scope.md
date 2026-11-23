@@ -97,7 +97,7 @@ There's no admin area in Stage A: there are no payments, trials or subscriptions
 - About **12–16 questions, about 10 minutes**: two questions for each of up to 8 skills. They cover the prerequisites and the unit's key skills; the exact set is chosen while writing the content.
 - **Two correct answers** for a skill mark it as mastered from the diagnostic (D-34). Skills the diagnostic doesn't cover start as "not started".
 - No hints or feedback during the diagnostic; at the end the student sees a short summary of what he already knows and where he'll start.
-- Taken once at the start. Retaking it is out of scope.
+- Taken once at the start. If it's interrupted, it resumes where it stopped. Retaking it is out of scope.
 
 ### 5. Learning path
 

@@ -15,8 +15,8 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 
 1. [docs/PLAN.md](docs/PLAN.md): background, stages, **decisions log (D-01 to D-43)** with the current status of D-01 to D-23, open questions, facts to verify, future features, planning status.
 2. [docs/plan/01-mvp-scope.md](docs/plan/01-mvp-scope.md): the **approved** Stage A scope (v4).
-3. [docs/plan/02-architecture.md](docs/plan/02-architecture.md): architecture and data model, **draft v3 in review**.
-4. [docs/plan/03-testing-strategy.md](docs/plan/03-testing-strategy.md): testing strategy, **being revised**.
+3. [docs/plan/02-architecture.md](docs/plan/02-architecture.md): the **approved** architecture and data model (v3).
+4. [docs/plan/03-testing-strategy.md](docs/plan/03-testing-strategy.md): testing strategy, **draft in review**.
 5. [docs/plan/04-repo-and-workflow.md](docs/plan/04-repo-and-workflow.md): repo setup, CI, PR and commit conventions, **small revision pending**.
 6. [docs/plan/05-implementation-plan.md](docs/plan/05-implementation-plan.md): implementation plan, **being rewritten for Stage A**.
 7. [docs/runbooks/](docs/runbooks/): procedures for rare operations, such as moving to a private repo at the start of Stage C.
@@ -32,14 +32,14 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 |---|---|
 | 1. Project idea and strategy (PLAN.md) | ✅ Revised (D-24 to D-43) |
 | 2. Scope (Stage A) | ✅ Approved (v4) |
-| 3. Architecture and data model | 🔄 Draft v3, in review |
-| 4. Testing strategy | 🔄 To be revised |
+| 3. Architecture and data model | ✅ Approved (v3) |
+| 4. Testing strategy | 🔄 Draft, in review |
 | 5. Repo setup, CI, PR and commit conventions | 🔄 Small revision |
 | 6. Implementation plan | 🔄 To be rewritten |
 
 **Git:** `main` holds one local commit (the plan as approved on 2026-11-22, `LICENSE`, `README.md`). The revision happens on the local branch `docs/replan-stage-a`, one commit per document, and becomes the first PR once the GitHub repo exists.
 
-**Next action:** the owner reviews the architecture (`docs/plan/02-architecture.md`, draft v3); then the testing, repo and implementation documents are revised in that order, each reviewed before the next.
+**Next action:** the owner reviews the testing strategy (`docs/plan/03-testing-strategy.md`); then the repo and implementation documents are revised in that order, each reviewed before the next.
 
 ## Working agreement
 

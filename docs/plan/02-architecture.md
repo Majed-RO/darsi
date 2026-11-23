@@ -1,6 +1,6 @@
 # Darsi (دَرْسي) — Architecture and Data Model
 
-> Status: **🔄 Draft for review (v3)** · 2026-11-23
+> Status: **✅ Approved (v3)** · 2026-11-23
 > v3 follows the Stage A strategy (PLAN.md D-24 to D-43). It replaces v2 (approved 2026-11-22), which stays in git history. Billing, calendar, demo and runtime AI parts of v2 are deferred with their features; they come back from git history when needed.
 > Scope: [01-mvp-scope.md](01-mvp-scope.md) · Decisions: [../PLAN.md](../PLAN.md)
 
@@ -84,7 +84,7 @@ flowchart TD
 | `feedback` | The flow for one item: tries, misconception message, hints on request, worked solution after two wrong tries (D-35) |
 | `session` | Build a practice round of up to 5 items from one skill |
 | `skill-map` | Check a unit's prerequisite graph (no cycles, every prerequisite exists); find the recommended next skill |
-| `diagnostic` | The diagnostic's fixed set of items; which skills it passed (2 of 2) |
+| `diagnostic` | The diagnostic's fixed set of items; where to resume after an interruption; which skills it passed (2 of 2) |
 | `mastery` | Skill states from attempts: 4 of the last 5 first-try answers without a hint, or passed in the diagnostic with no wrong attempt since (D-34) |
 | `attempt` | The attempt record's shape and the rules derived from it (counts for mastery, unmatched wrong answer) |
 | `pin` | Lockout after 5 failures for 15 minutes; reset on success |
