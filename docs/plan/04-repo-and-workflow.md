@@ -1,6 +1,6 @@
 # Darsi (دَرْسي) — Repo Setup, CI, PR and Commit Conventions
 
-> Status: **🔄 Draft for review (Stage A revision)** · 2026-11-23
+> Status: **✅ Approved (Stage A revision)** · 2026-11-23
 > This revision follows architecture v3 and the Stage A testing strategy. The earlier version (approved 2026-11-22) stays in git history.
 > Architecture: [02-architecture.md](02-architecture.md) · Testing: [03-testing-strategy.md](03-testing-strategy.md) · Decisions: [../PLAN.md](../PLAN.md)
 

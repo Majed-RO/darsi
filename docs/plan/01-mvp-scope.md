@@ -197,7 +197,7 @@ Every result states its limits: one student, the developer's son, and a unit he 
 
 ## Size
 
-About **16–17 focused days of development**, plus about **4–5 days of content writing and review**. The implementation plan (step 6) refines this.
+About **17 focused days of development**, plus about **4–5 days of content writing and review**. The implementation plan (step 6) refines this.
 
 | Work | Days |
 |---|---|
@@ -211,11 +211,12 @@ About **16–17 focused days of development**, plus about **4–5 days of conten
 | Mastery, learning path and progress | 1.5 |
 | Attempts, the sync Route Handler and the server's re-check | 1.5 |
 | Offline: service worker, caching, per-student queues on the phone, sync status | 2.5 |
+| The AI content-writing script | 0.5 |
 | The evaluation script | 0.5 |
 | Real-device checks, README, private deployment | 1 |
-| **Total** | **≈ 16.75** |
+| **Total** | **≈ 17.25** |
 
-This is about a day more than earlier estimates. Per-student queues (D-38) and the lesson display were counted more carefully.
+This is more than earlier estimates. Per-student queues (D-38) and the lesson display were counted more carefully, and the AI content-writing script was added when the implementation plan was written.
 
 ## Realism notes
 
