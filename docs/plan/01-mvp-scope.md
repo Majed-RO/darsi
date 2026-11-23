@@ -1,6 +1,6 @@
 # Darsi (دَرْسي) — Stage A Scope
 
-> Status: **🔄 Draft for review (v4)** · 2026-11-23
+> Status: **✅ Approved (v4)** · 2026-11-23
 > v4 replaces the teacher-first Phase 1 scope (v3, approved 2026-11-22), which stays in git history. It follows PLAN.md decisions D-24 to D-43.
 > Background, decisions, open questions and future features: [../PLAN.md](../PLAN.md)
 
@@ -23,7 +23,7 @@ The numbers that count as success are proposed under "Success criteria" and are 
 
 | Role | Who | Can do in Stage A |
 |---|---|---|
-| **Teacher** | The owner only; Clerk sign-up is restricted to his email (D-38, D-40) | Create one class with a Math subject linked to the integers unit, add students, see and reset their PINs, delete a student's data |
+| **Teacher** | The owner only; Clerk sign-up is restricted to his email (D-38, D-40) | Create one class with a Math subject linked to the grade 7 math content, add students, get and reset their PINs, delete a student's data |
 | **Student** | The owner's son (D-25) | Sign in with the class code, his first name and a PIN; take the diagnostic; read lessons; practise; see his progress |
 | **Content author and reviewer** | The owner, outside the app | Write the content files with help from the AI script, and review everything before it's published (D-29, D-30) |
 
@@ -39,8 +39,8 @@ There's no admin area in Stage A: there are no payments, trials or subscriptions
 
 - Clerk sign-in. Sign-up is restricted to the owner's email; nobody else can create a teacher account.
 - The first sign-in creates the teacher's workspace (D-13).
-- Create a class with a name and a grade (1–12) and its join code from an alphabet without look-alike characters. Add one subject to it, linked to a core-content unit (D-22, D-38).
-- Add students by first name (unique within the class). Darsi generates a 4-digit PIN for each one; the teacher can see and reset it.
+- Create a class with a name and a grade (1–12) and its join code from an alphabet without look-alike characters. Add one subject to it, linked to a subject and grade in the core content: in Stage A, math for grade 7, with its one unit (D-22, D-38).
+- Add students by first name (unique within the class). Darsi generates a 4-digit PIN for each one and shows it once, when it's created or reset; only its hash is stored. The teacher can reset it at any time.
 - **Delete a student completely:** the student, the sessions and every attempt (D-37, D-40).
 - No other teacher pages in Stage A.
 
