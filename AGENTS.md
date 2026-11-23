@@ -4,7 +4,7 @@ Instructions for AI coding sessions on this project. `CLAUDE.md` only imports th
 
 ## What this project is
 
-Darsi is an Arabic, mobile-first math learning platform for students in Palestine, starting with grade 7 (D-25). It follows a limited hybrid model (D-24):
+Darsi is an Arabic, mobile-first learning and practice platform for students in Palestine, meant to cover several subjects and grades. It starts with one math unit in grade 7, chosen for testing, not as a limit (D-25, D-26). Don't hard-code math or grade 7 into the data or content model (D-24). It follows a limited hybrid model (D-24):
 - **Students** take a short diagnostic test, then practise the skills they're missing, including prerequisites from earlier grades, with feedback and hints that help them think. Practice keeps working when the connection drops.
 - **Teachers** follow their students' progress and step in when needed (Stage B).
 - **AI** helps write the content, and a person reviews everything before students see it. Students don't use AI in the prototype (D-29, D-30).
