@@ -9,7 +9,7 @@
 1. **Nothing private ever reaches the public repo:** `private/`, secrets, real prices, bank details, the family test's data, the owner's real name and email (D-17, D-18, D-40, D-42). Several layers stop it, not just one.
 2. **`main` is always deployable.** Every change after the first commit arrives through a PR with green CI; nobody pushes to `main` directly, including the owner.
 3. **The history tells the story.** One PR per feature, conventional commit titles, ADRs for decisions, so a reviewer can follow how Darsi was built.
-4. **Setup is cheap to repeat** for the private repo at the start of Stage C ([runbook](../runbooks/phase-2-move-to-private-repo.md)).
+4. **Setup is cheap to repeat** for the private repo at the start of Stage C ([runbook](../runbooks/stage-c-move-to-private-repo.md)).
 
 ## 2. First commit and bootstrap order
 

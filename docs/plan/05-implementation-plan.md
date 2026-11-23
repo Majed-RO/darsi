@@ -1,6 +1,6 @@
 # Darsi (دَرْسي) — Implementation Plan (Stage A)
 
-> Status: **🔄 Draft for review (Stage A)** · 2026-11-23
+> Status: **✅ Approved (Stage A)** · 2026-11-23
 > This plan builds the Stage A prototype. The earlier 9-day plan for the teacher-first MVP (approved 2026-11-22) stays in git history.
 > Scope: [01-mvp-scope.md](01-mvp-scope.md) · Architecture: [02-architecture.md](02-architecture.md) · Testing: [03-testing-strategy.md](03-testing-strategy.md) · Repo and workflow: [04-repo-and-workflow.md](04-repo-and-workflow.md)
 
@@ -233,4 +233,4 @@ The build is done, and the family test can start, when every item of the scope's
 1. **The family test:** two weeks, at least four practice sessions, with help requests noted (scope, "Success criteria").
 2. **The evaluation:** run the evaluation script; write a short results note in `private/`, with the limits of a sample of one.
 3. **The decision:** you decide whether to start Stage B, and what to change first. It's recorded as a new D-number in PLAN.md.
-4. **Later:** the Stage C prerequisites and the move to a private repo are listed in [PLAN.md](../PLAN.md#future-features) and the [runbook](../runbooks/phase-2-move-to-private-repo.md).
+4. **Later:** the Stage C prerequisites and the move to a private repo are listed in [PLAN.md](../PLAN.md#future-features) and the [runbook](../runbooks/stage-c-move-to-private-repo.md).

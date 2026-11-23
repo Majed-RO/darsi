@@ -18,15 +18,15 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 3. [docs/plan/02-architecture.md](docs/plan/02-architecture.md): the **approved** architecture and data model (v3).
 4. [docs/plan/03-testing-strategy.md](docs/plan/03-testing-strategy.md): the **approved** testing strategy.
 5. [docs/plan/04-repo-and-workflow.md](docs/plan/04-repo-and-workflow.md): the **approved** repo setup, CI, PR and commit conventions.
-6. [docs/plan/05-implementation-plan.md](docs/plan/05-implementation-plan.md): the Stage A implementation plan, **draft in review**.
+6. [docs/plan/05-implementation-plan.md](docs/plan/05-implementation-plan.md): the **approved** Stage A implementation plan: PRs by day, the daily routine, pausing and resuming.
 7. [docs/runbooks/](docs/runbooks/): procedures for rare operations, such as moving to a private repo at the start of Stage C.
 8. `private/`: business notes, reference materials (such as the UNRWA learning cards) and planning drafts. **Never commit it.**
 
-**Until documents 01–05 are revised, PLAN.md decisions D-24 to D-43 win over anything in them that conflicts.**
+**If a step document ever conflicts with a PLAN.md decision, the decision wins. Report the conflict to the owner instead of choosing silently.**
 
 ## Current status (2026-11-23)
 
-**The plan approved on 2026-11-22 is being revised for Stage A. No code has been written yet.**
+**The Stage A plan was approved on 2026-11-23 (all six steps). No code has been written yet.**
 
 | Step | Status |
 |---|---|
@@ -35,11 +35,11 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 | 3. Architecture and data model | ✅ Approved (v3) |
 | 4. Testing strategy | ✅ Approved (Stage A revision) |
 | 5. Repo setup, CI, PR and commit conventions | ✅ Approved (Stage A revision) |
-| 6. Implementation plan | 🔄 Draft, in review |
+| 6. Implementation plan | ✅ Approved (Stage A) |
 
 **Git:** `main` holds one local commit (the plan as approved on 2026-11-22, `LICENSE`, `README.md`). The revision happens on the local branch `docs/replan-stage-a`, one commit per document, and becomes the first PR once the GitHub repo exists.
 
-**Next action:** the owner reviews the implementation plan (`docs/plan/05-implementation-plan.md`); then the runbook is renamed and revised for Stage C.
+**Next action:** the owner finishes the setup in section 2 of `docs/plan/05-implementation-plan.md`, creates the GitHub repo, pushes `main` and opens the replanning PR from `docs/replan-stage-a` (repo and workflow, section 2). After it merges, **Day 1** starts with PR 1.
 
 ## Working agreement
 
@@ -50,7 +50,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 - **Record every decision** in the PLAN.md decisions log (the next number is **D-44**), with its state (APPROVED, PROPOSED or OPEN), and keep its planning status table current. Never rewrite an older decision: record its new status in "Current status of D-01 to D-23" or in a new decision. Step details go in `docs/plan/`. During implementation, technical decisions become ADRs in `docs/adr/`.
 - **The owner must see every code change:** edit code with the editor's edit tools, never with shell scripts, so each change appears as a diff in VS Code. Files that tools write themselves (scaffolding, lockfiles, generated migrations) are reviewed in the Source Control view instead.
 - **The plan's days are focused days of work, not consecutive calendar days;** the owner sometimes pauses. During implementation, every PR updates "Current status" as its last commit (what it completes and the next PR), so the status reaches `main` with the merge and work resumes cleanly after a pause.
-- **Implementation starts only when all six planning documents are approved again.**
+- **The whole Stage A plan was approved on 2026-11-23.** Build in the order of `docs/plan/05-implementation-plan.md`, following its daily routine (section 3).
 
 ## Rules that must not be broken
 
@@ -66,7 +66,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 
 ## Product essentials
 
-Details are in PLAN.md (D-24 to D-43); the Stage A scope document will hold the full list.
+Details are in PLAN.md (D-24 to D-43) and the Stage A scope document.
 
 - **Stages (D-28):** A, the student prototype tested in the family; B, the teacher-supervised prototype on test accounts and synthetic data; C, a pilot beyond the family, which needs the Stage C prerequisites first. Other ideas are on the "Later" list.
 - **First unit (D-27):** integers, from the UNRWA grade 7 cards, in this order: number line and opposites → comparing and ordering → absolute value → addition → subtraction.
@@ -78,7 +78,7 @@ Details are in PLAN.md (D-24 to D-43); the Stage A scope document will hold the 
 - **Not in the prototype (D-31, D-32):** payments, trials, subscriptions, the public demo, several subjects or grade cohorts, runtime AI.
 - **The UI is Arabic, right-to-left only** (D-04).
 
-## Stack (to be confirmed in the architecture revision)
+## Stack (approved with architecture v3)
 
 - **App:** Next.js 16 (App Router), React 19, TypeScript strict
 - **UI:** Tailwind CSS v4 + shadcn/ui

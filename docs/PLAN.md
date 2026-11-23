@@ -35,14 +35,14 @@ Stages replace the earlier phases (D-28). Stages A and B are two steps of one pr
 
 | Stage | Goal | Data | Status |
 |---|---|---|---|
-| **A — Student prototype** | One student can learn and practise one unit fairly independently: lessons, a diagnostic test, practice with feedback and hints, progress, and practice that survives connection drops | Family testing with the owner's son only (D-40) | Planning |
+| **A — Student prototype** | One student can learn and practise one unit fairly independently: lessons, a diagnostic test, practice with feedback and hints, progress, and practice that survives connection drops | Family testing with the owner's son only (D-40) | Plan approved (2026-11-23); building next |
 | **B — Teacher-supervised prototype** | Teacher role and access, classes, a progress dashboard, skill gaps, and teacher intervention | Test accounts and synthetic data | After Stage A |
 | **C — Pilot beyond the family** | Real students and teachers outside the family | Real data: the Stage C prerequisites come first, and development moves to a private repo (D-17) | After Stage B |
 | **Later** | Unscheduled ideas (see "Future features") | — | — |
 
 ## Planning status
 
-The plan approved on 2026-11-22 is being revised for Stage A after the strategy review of 2026-11-23 (D-24 to D-43). Each document is rewritten and reviewed in turn.
+The plan approved on 2026-11-22 was revised for Stage A after the strategy review of 2026-11-23 (D-24 to D-43). Each document was rewritten and reviewed in turn, and all six were approved again on 2026-11-23.
 
 | Step | Document | Status |
 |---|---|---|
@@ -51,9 +51,9 @@ The plan approved on 2026-11-22 is being revised for Stage A after the strategy 
 | 3. Architecture and data model | [plan/02-architecture.md](plan/02-architecture.md) | ✅ Approved (v3) |
 | 4. Testing strategy | [plan/03-testing-strategy.md](plan/03-testing-strategy.md) | ✅ Approved (Stage A revision) |
 | 5. Repo setup, CI, PR and commit conventions | [plan/04-repo-and-workflow.md](plan/04-repo-and-workflow.md) | ✅ Approved (Stage A revision) |
-| 6. Implementation plan (PRs by day) | [plan/05-implementation-plan.md](plan/05-implementation-plan.md) | 🔄 Draft, in review |
+| 6. Implementation plan (PRs by day) | [plan/05-implementation-plan.md](plan/05-implementation-plan.md) | ✅ Approved (Stage A) |
 
-**Working agreement:** one step at a time, each reviewed before the next. Implementation starts when all six documents are approved again.
+**Working agreement:** one step at a time, each reviewed before the next. The whole Stage A plan is approved, so implementation can start after the owner's setup (implementation plan, section 2).
 
 ## Decisions log
 
@@ -143,7 +143,7 @@ Before any student from outside the family signs in:
 - Deleting and exporting a student's data (deleting already exists from Stage A, D-40)
 - A sign-in security review: guessing PINs across a class, and locking students out on purpose (D-38)
 - A qualified reviewer for the content (Q-12)
-- Moving development to a private repo and archiving the public one (D-17). Step-by-step: [runbooks/phase-2-move-to-private-repo.md](runbooks/phase-2-move-to-private-repo.md)
+- Moving development to a private repo and archiving the public one (D-17). Step-by-step: [runbooks/stage-c-move-to-private-repo.md](runbooks/stage-c-move-to-private-repo.md)
 - Before the first paying customer: terms of service and a refund policy (D-32)
 
 ### School workspaces with several teachers (Later)
