@@ -1,0 +1,26 @@
+# Private business notes, reference materials and planning drafts.
+# Never committed or pushed (D-17, D-18).
+private/
+
+# Environment files: only the example is tracked
+.env*
+!.env.example
+
+# Dependencies and build output
+node_modules/
+.next/
+out/
+build/
+*.tsbuildinfo
+.vercel/
+
+# Test reports and coverage
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
