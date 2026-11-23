@@ -1,178 +1,247 @@
-# Darsi (دَرْسي) — Phase 1 MVP Scope
+# Darsi (دَرْسي) — Stage A Scope
 
-> Status: **✅ Approved (v3)** · 2026-11-19 · amended 2026-11-22 by D-19 (where purchased access starts), D-20 (demo sign-in), D-21 (overall AI limits), D-22 (classes and subjects) and D-23 (AI through OpenRouter)
+> Status: **🔄 Draft for review (v4)** · 2026-11-23
+> v4 replaces the teacher-first Phase 1 scope (v3, approved 2026-11-22), which stays in git history. It follows PLAN.md decisions D-24 to D-43.
 > Background, decisions, open questions and future features: [../PLAN.md](../PLAN.md)
 
-## Product in one sentence
+## Stage A in one sentence
 
-Darsi is an Arabic, mobile-first learning space for elementary schools (grades 1–6). Teachers publish materials and practice questions, with AI help to draft summaries and quizzes, and students practise and track their progress.
+A grade-7 student learns and practises one unit, integers, on a phone and fairly independently: a short diagnostic test, then lessons and practice at the right level, with feedback and hints, and visible progress, without losing an answer when the connection drops.
+
+## What Stage A must show
+
+Stage A is a **family test with one student** (D-25, D-40). It can show whether the product works for a real learner. It can't show whether Darsi improves learning in general, or whether anyone will pay. It answers four questions:
+
+1. **Independent use:** can the student find his way through the diagnostic test, the lessons and the practice without an adult explaining the app?
+2. **Learning signal:** do the hints, misconception messages and worked solutions help him fix his mistakes, and do the skills the diagnostic found missing reach mastery?
+3. **Connection drops:** are answers ever lost or counted twice when the connection drops and returns?
+4. **Content quality:** is the reviewed content accurate, clear and at the right level?
+
+The numbers that count as success are proposed under "Success criteria" and are set before the test starts (Q-11).
 
 ## Roles
 
-| Role | Who | Can do |
+| Role | Who | Can do in Stage A |
 |---|---|---|
-| **Platform admin** | You, the operator | Verify payments; activate or reject subscriptions |
-| **Teacher** | The subscriber, who owns a workspace | Manage the subscription, classes, students, materials and questions; use the AI assistant |
-| **Student** | Ages 6–12, the end user | Log in **without email**, read materials, practise, see their own progress |
+| **Teacher** | The owner only; Clerk sign-up is restricted to his email (D-38, D-40) | Create one class with a Math subject linked to the integers unit, add students, see and reset their PINs, delete a student's data |
+| **Student** | The owner's son (D-25) | Sign in with the class code, his first name and a PIN; take the diagnostic; read lessons; practise; see his progress |
+| **Content author and reviewer** | The owner, outside the app | Write the content files with help from the AI script, and review everything before it's published (D-29, D-30) |
 
-In Phase 1, every workspace belongs to **one teacher**. **School workspaces with several teachers are a Phase 2 feature** (see [PLAN.md → Future features](../PLAN.md#future-features)). The data model keeps a separate workspace and membership from day one, so schools can be added later without a rewrite.
+There's no admin area in Stage A: there are no payments, trials or subscriptions (D-32). The teacher's dashboard, skill-gap analysis and interventions are Stage B.
 
-## Phase 1 goal
-
-A deployed, demoable MVP running on **seed data** that proves the engineering practices: tests, CI, one PR per feature, and ADRs.
-**No real student data in Phase 1.**
+**Not tied to math or grade 7:** a subject, its grade and its units are data. Adding another subject or grade later means adding content, not changing code (D-24).
 
 ---
 
 ## In scope
 
-### 1. Teacher account and workspace
-- Email-based sign-up and sign-in for teachers.
-- The first sign-in creates the teacher's workspace, named after the teacher or their school.
+### 1. Teacher setup (the minimum)
 
-### 2. Trial, subscription and manual payment
-- Every new workspace starts a **14-day trial** automatically, with no approval step (PLAN.md D-07).
-- One plan in Phase 1: the **Teacher plan**, sold for a **semester** or a **school year** (PLAN.md D-14). Prices are in **ILS** and come from configuration. Phase 1 uses placeholder prices.
-- **School calendar:** the platform admin defines each school year and its semesters, with start and end dates, and updates them every year.
-- **Choosing a period:** the teacher picks from periods that haven't ended yet: the current or next semester, or the current or next school year. The page shows each period's dates, its price, and the date access would start. Periods that overlap one already paid for, or waiting for verification, aren't offered.
-- **No proration:** the price is the same whenever the teacher buys. Buying in the middle of a semester gives access until **that semester's end**. The days already passed are not refunded or discounted.
-- **Where access starts (PLAN.md D-19):** each period's access starts where the previous period ends. A semester also covers the break before it, and a school year also covers the summer before it. The first period in the calendar starts on its own start date.
-- **Payment flow:**
-  1. The teacher opens the Subscription page, picks a period, and sees the amount plus transfer instructions for **Bank of Palestine, PalPay and JawwalPay**. Your account details come from configuration.
-  2. The teacher transfers the money outside Darsi.
-  3. The teacher submits a **payment notice**: method, amount, transfer reference number, transfer date and payer name.
-  4. The platform admin checks it against the bank or wallet statement, then **approves** it or **rejects it with a reason** the teacher can see.
-  5. Approval gives access from that moment, or from the period's start (as defined above) if that's later, until the **end of the paid period**. Paying for the next period while the current one is still active continues access with no gap. Buying next semester in the middle of a semester gives access from the end of the current semester, not from approval.
-- **Subscriptions follow the calendar:** a subscription points to its semester or school year rather than copying the dates. If the admin changes a period's dates (for example, the ministry extends a semester), access for everyone who paid for that period changes with it.
-- **Breaks between semesters** belong to the next semester. A teacher who has paid for it, or for the school year, has access during the break, and paying during the break gives access right away, so teachers can prepare before term starts. Otherwise the teacher is read-only during the break, and students keep full access.
-- Notice states: **Pending → Approved or Rejected**. A workspace can have only one pending notice at a time.
-- Every decision records who made it and when.
-- The teacher sees the current status, days left and notice history. A reminder banner appears **14 days before** access ends, leaving time for the transfer and its verification.
-- **Access rules**, kept in one unit-tested module:
-  - Trial or paid period active: full access.
-  - Expired: the teacher can view everything but cannot create, edit or use the AI. **Students keep full access.**
-  - Expired with a payment notice waiting: still read-only until the admin approves it (PLAN.md D-16). The teacher sees "Payment received, usually verified within 24 hours."
-- Darsi never handles money and does not connect to any bank API.
+- Clerk sign-in. Sign-up is restricted to the owner's email; nobody else can create a teacher account.
+- The first sign-in creates the teacher's workspace (D-13).
+- Create a class with a name and a grade (1–12) and its join code from an alphabet without look-alike characters. Add one subject to it, linked to a core-content unit (D-22, D-38).
+- Add students by first name (unique within the class). Darsi generates a 4-digit PIN for each one; the teacher can see and reset it.
+- **Delete a student completely:** the student, the sessions and every attempt (D-37, D-40).
+- No other teacher pages in Stage A.
 
-### 3. Platform admin
-- A list of pending payment notices with approve and reject actions, oldest first.
-- A **pending notices counter** in the admin navigation, so waiting payments are visible at a glance. An SMS or other alert comes in Phase 2.
-- A list of workspaces showing access status and end date.
-- A **school calendar** page to create and edit school years and their semesters. Semesters in a year must be in order and must not overlap.
-- Only accounts listed in server configuration can open these pages.
+### 2. Student sign-in (D-10, D-38)
 
-### 4. Classes
-- A class is **a group of children**, such as "3A" (PLAN.md D-22). Create and edit a class with a name and a grade (1–6).
-- Add one or more **subjects** to a class, such as Math and Arabic. Each subject has its own topics. A class teacher who teaches several subjects to the same children adds the children only once.
-- Each class gets a short **join code** from an alphabet without easily confused characters (no `0/O`, `1/I/l`).
-
-### 5. Students
-- The teacher adds students to a class by **first name**. Names must be unique within a class, so add a last initial if two students share a name. Each child has one PIN per class, however many subjects the class has.
-- The system generates a **4-digit PIN** for each student, and the teacher can reset it.
-- A **printable roster** shows the class code plus each student's name and PIN, for sharing with parents.
-
-### 6. Student login
 1. Enter the class code.
-2. Pick your name from the class list.
-3. Enter your PIN.
-- After **5 failed PIN attempts**, that student is locked out for **15 minutes**.
-- The session is long-lived because devices are shared family phones. A **"Not you? Switch student"** button is always visible.
-- Known trade-off: anyone with the class code can see the class's first names. This is accepted for first names only and will be recorded in an ADR.
+2. Pick a first name from the class list.
+3. Enter the PIN on Darsi's keypad.
 
-### 7. Topics and materials
-- Each subject's content is organized into ordered **topics** (units).
-- A **material** has a title, a plain-text body, an optional link to the original source (such as the ministry page) and an optional **summary**.
-- Teachers create, edit and delete materials. Students read them.
+- After **5 wrong PINs**, that student is locked out for **15 minutes**. The 4-digit PIN's weakness is accepted for Stages A and B and reviewed before Stage C.
+- The session is long-lived, because family phones are shared.
+- **"Not you? Switch student"** is always visible. Each student's unsynced answers stay on the phone in their own queue and are sent the next time that student signs in with a connection.
+- The sign-in screen shows how many answers each student has waiting on this phone ("Ahmad: 7 answers saved on this phone. Sign in to send them").
+- Signing in needs a connection. Practising after signing in doesn't.
 
-### 8. Questions
-- Multiple choice with **one correct answer** and 2–4 options. True/false is the 2-option case.
-- Each question belongs to a topic and has a **source** (written by the teacher, or drafted by AI) and a **status** (Draft or Published).
-- Questions the teacher writes are published directly. **Only published questions appear in practice.**
+### 3. Core content: the integers unit (D-26, D-27, D-39)
 
-### 9. AI assistant (teachers only)
-- **Generate summary:** from a material's text, the AI writes a short, child-friendly Arabic summary for the class's grade. It is saved as a **draft** that the teacher edits, then publishes.
-- **Generate questions:** from a material's text, the AI drafts **5 multiple-choice questions**. The teacher reviews each one: edit, publish or discard.
-- **Grounded:** the AI works only from the material text the teacher provided, and the prompt includes the grade level.
-- **Validated output:** every AI response must match a strict schema (2–4 options, exactly one correct answer, length limits). Invalid items are discarded, and the teacher is told how many.
-- **Safety:** students never interact with the AI, and **no student data is ever sent to it**. Only the teacher's material text is sent.
-- **Quota:** a shared allowance per subscription period (PLAN.md D-15): **10** for the trial, **300** per semester and **600** per school year. These are placeholders kept in configuration.
-  - When a trial and a paid period overlap, the paid allowance starts at approval and replaces the trial's (D-19).
-  - One summary or one question set counts as one generation, and generating again counts again.
-  - Failed generations don't count, and unused generations don't carry over to the next period.
-  - The teacher always sees how many are left. At zero, the AI buttons are disabled with a clear message, and everything else keeps working.
-- **Cost safeguards:** a maximum material length sent to the AI (about 6,000 characters), and a global switch that turns all AI features off immediately.
-  - **Overall limits (D-21):** a daily generation cap across all workspaces, plus a credit limit on the OpenRouter API key (D-23). When the daily cap is reached, the AI buttons are disabled for everyone until the next day with a clear message, and everything else keeps working.
-- **Logging:** every generation is logged with workspace, user, type, result, tokens used and estimated cost.
-- **Provider:** Claude models accessed through **OpenRouter** (PLAN.md D-23), with structured outputs. The model choice and cost estimate are settled by the evaluation run (architecture section 7) and recorded in an ADR.
-- Tests and CI use a **fake AI provider**. No real AI calls run in CI.
+**Order of topics:** the number line and opposites → comparing and ordering → absolute value → addition → subtraction. Multiplication and division come later.
 
-### 10. Practice
-- The student picks a subject (skipped when the class has only one), then a topic, and gets a **round of up to 5 questions**.
-- Questions are picked in this order: never answered first, then those answered wrong most recently, then the rest (oldest attempt first). Answer options are shuffled.
-- One question per screen, with **immediate feedback** that shows the correct answer, and a short summary at the end of the round.
-- Every answer is stored as an **Attempt**.
+**Draft skill map.** The final list (about 10–14 skills) is fixed while writing the content, checked against the UNRWA cards' objectives (V-01):
 
-### 11. Progress
-- **Mastery** per student per topic = the share of the topic's published questions whose most recent attempt is correct.
-- Students see mastery as **0–3 stars**. The thresholds live in one module and are unit-tested.
-- The teacher's **class results** page shows a grid of students × topics, one subject at a time. Topics where the class average is below the threshold are flagged **"needs review"**.
+| Kind | Skill (draft) |
+|---|---|
+| Prerequisite | Compare and order whole numbers |
+| Prerequisite | Add and subtract whole numbers |
+| Prerequisite | Read positions on a number line with a given step |
+| Prerequisite | Continue a number pattern with a constant step |
+| Unit | Express real situations with integers (gain and loss, above and below sea level, temperature) |
+| Unit | Place and read integers on the number line |
+| Unit | Find the opposite of an integer |
+| Unit | Compare two integers |
+| Unit | Order a set of integers |
+| Unit | Find the absolute value of an integer |
+| Unit | Add two integers with the same sign |
+| Unit | Add two integers with different signs |
+| Unit | Subtract integers by adding the opposite |
+| Unit | Solve short word problems with adding and subtracting integers |
 
-### 12. Cross-cutting
-- **Arabic UI, right-to-left, mobile-first.** It must stay usable on low-end Android phones and slow connections, with no heavy client-side libraries.
-- **Tenant isolation:** a teacher sees only their own workspace, and a student only their own class. Both are enforced on the server and covered by tests.
-- **Seed data:** two teacher workspaces, one with an active subscription and one in trial with a pending payment notice for the admin demo. Each has a grade 3 class with a Math subject of 3 topics, about 20 questions, and 5 students with practice history. Two workspaces also let reviewers see tenant isolation working. **All demo content is written from scratch**, so the public repo contains no ministry materials (D-09).
-- **Deployed** to a public URL on our own domain (D-20). Reviewers sign in as teacher or admin with "Try as teacher" and "Try as admin" buttons, and as students with the class code and PINs in the README. The demo data resets every night.
+**Each skill has:**
+- its prerequisites in the skill map
+- a short lesson: the objective, a short explanation, one or two worked examples, and a quick check question
+- one or more **item templates**: small functions that generate questions with random numbers in a set range and compute the answer
+- for each template: the expected **misconceptions**, each a wrong-answer pattern with its message (for example, −8 for (−5) − (−3)); **two hint levels** that never reveal the answer; and a **worked solution**
+
+**Content rules:**
+- Everything is written from scratch. UNRWA's cards give only the objectives and their order, and are never sent to an AI (D-26).
+- AI drafts hints, misconception messages and worked solutions through a local script. The owner reviews every piece before it's published (D-29, D-30).
+- Content lives as files in the repo, with a version number, and the content folder has its own "all rights reserved" license (D-39).
+- CI checks every file against its schema, and generates thousands of items from each template to check their answers.
+- The number line appears as a static picture in lessons and hints (D-27).
+
+### 4. Diagnostic test
+
+- About **12–16 questions, about 10 minutes**: two questions for each of up to 8 skills. They cover the prerequisites and the unit's key skills; the exact set is chosen while writing the content.
+- **Two correct answers** for a skill mark it as mastered from the diagnostic (D-34). Skills the diagnostic doesn't cover start as "not started".
+- No hints or feedback during the diagnostic; at the end the student sees a short summary of what he already knows and where he'll start.
+- Taken once at the start. Retaking it is out of scope.
+
+### 5. Learning path
+
+- **Recommended next skill:** the first skill in the map's order that isn't mastered and whose prerequisites are mastered.
+- **Free choice:** the student can open any skill. If its prerequisites aren't mastered, a short notice suggests starting with them, without blocking him (D-24).
+
+### 6. Lessons
+
+- A lesson is shown before a skill's first practice, and can be opened again at any time.
+- Plain text with simple number formatting, worked examples and the static number line. No video or audio.
+
+### 7. Practice
+
+- A **session** is a round of up to **5 questions** from one skill, generated on the phone from that skill's templates.
+- **Answer types (D-33):**
+  - a whole number typed on Darsi's own keypad (٠–٩, minus, delete)
+  - multiple choice, with comparison (<, >, =) and true/false as fixed-button variants
+- **Feedback (D-35):**
+  - a wrong answer shows its misconception message (or a general message if none matches) and allows another try
+  - two hint levels on request
+  - after two wrong tries, the worked solution is shown
+  - a right answer shows "correct" at once
+- **What counts for mastery (D-34):** only a first-try right answer without a hint. Later tries and hinted answers are recorded too.
+- A short summary at the end of the session.
+- Every answer becomes one immutable attempt record (D-37). A wrong answer that matches no known misconception is marked, so content gaps can be found (D-29).
+
+### 8. Progress
+
+- **Skill map** with each skill's state: not started, practising, mastered (D-34). Mastery drops back when later answers no longer meet the rule: the first wrong answer after a skill passed in the diagnostic, or fewer than 4 right in the last 5.
+- For each skill: how many questions he answered and how many were right on the first try.
+- The recommended next skill.
+
+### 9. Connection drops: limited offline (L1, D-36)
+
+- Darsi installs on the phone's home screen (PWA). The first visit caches the app and the whole unit.
+- After signing in, lessons, the diagnostic and practice work without a connection: questions are generated and checked on the phone, and mastery is computed there.
+- Answers are saved on the phone (IndexedDB) and synced when the connection returns: when the app opens, when the connection comes back, and after each session.
+- The sync state is always visible: "3 answers waiting" or "Synced ✓".
+- The server stores each answer once, checks it again, and keeps its own result if the two differ. A difference is flagged for the owner, and the student sees no sudden change.
+- Darsi asks the browser to keep its storage permanently.
+- **Not included:** opening Darsi for the first time offline, signing in offline, and updating content offline. Full offline support (L2) only if real use shows the need.
+
+### 10. Privacy and data (D-30, D-40)
+
+- First names only. No birth date, school or phone number.
+- Student data never leaves the database: not in the repo, logs, screenshots or any AI prompt.
+- No student data is sent to any AI; students don't interact with AI.
+- A private deployment. Seed and test data are synthetic, written from scratch in Arabic.
+
+### 11. Cross-cutting
+
+- **Arabic, right to left, mobile first.** Tested on Android with Chrome (D-43); stays light on low-end phones.
+- **Digits (D-41):** Arabic-Indic digits on screen; typed input accepts Arabic-Indic, Persian and Western digits; negatives shown as "-٥" with their direction isolated.
+- **All UI text in one Arabic messages file.**
+- **Tenant isolation:** the teacher sees only his workspace; a student sees only his own data. Enforced on the server and covered by tests.
+- **Deployment:** a private deployment on Vercel with a Neon database. The Clerk development instance is enough. No public demo and no domain needed (D-40).
+
+### 12. Data for the evaluation
+
+A local script summarizes the family test from the database: sessions, attempts, mastery over time, hint use, wrong answers with no matching misconception, server mismatches, and sync statistics. Its output stays in `private/`.
 
 ---
 
-## Deferred
+## Not in Stage A
 
-| Item | Why deferred | When |
-|---|---|---|
-| **School workspaces with several teachers** (details in [PLAN.md → Future features](../PLAN.md#future-features)) | Adds roles, invites and a second plan; one-teacher workspaces prove the product first | Phase 2 |
-| Receipt image upload on payment notices | Needs file storage; the reference number is enough to match statements | Phase 2 |
-| Invoices and receipts (PDF) | Not needed to verify payments | Phase 2 |
-| Online payments or bank and wallet API integration | No suitable provider yet; manual verification works at pilot scale | When volume justifies it |
-| Email notifications (payment approved, renewal reminders) | In-app banners are enough for now | Phase 2 |
-| Alert to the platform admin when a payment notice arrives: **SMS as an option**, or email, Telegram or WhatsApp | Needs an external provider, and SMS costs per message | Phase 2 |
-| **Images and audio** in questions and materials | Needs file storage and upload flows. **Required for grades 1–2**, who can't read reliably yet | Phase 2, top priority |
-| PDF and file uploads; AI generation from PDFs or scanned pages | Same storage work, plus text extraction | Phase 2 |
-| AI for students (tutor or chat) | Needs safeguards for children; teachers review everything in Phase 1 | Not before Phase 3 |
-| Extra AI generation packs, bought through the same manual payment flow | An upsell; not needed to prove the product | Phase 2 |
-| Importing from the ministry site or Moodle (GIFT format) | Get at least an informal written OK from the ministry first (D-09) | Phase 2 or later |
-| Offline mode (PWA) | Large effort; an ADR will describe the intended approach | Phase 2–3 |
-| More question types (fill-in, matching, ordering) | Multiple choice covers most elementary practice | Phase 2 |
-| Spaced repetition | Simple prioritization (section 10) comes first | Later |
-| Parent accounts, including linking a child's logins across workspaces (a school, a private tutor, a learning center) | Families share one phone; the teacher shares PINs through the roster. Linking a child across workspaces needs a parent to own the link, with consent | Phase 2 |
-| English UI | Arabic market first | Later |
-| Deleting classes and students, data export, account deletion | **Pilot blocker**: required before real student data | Phase 2 |
-| Privacy policy and parental consent flow | **Pilot blocker**: required before any real student signs in | Phase 2 |
-| Terms of service and refund policy | **Required before the first paying customer** | Phase 2 |
-| Discussions or chat | Moderating children's messages is a safety burden | Not planned |
-| Leaderboards and badges | Competition between young children isn't a goal | Not planned |
+| Item | Where it goes |
+|---|---|
+| Teacher dashboard, skill-gap analysis, directing students to skills or practice | Stage B |
+| Teacher additions to the content, and AI help for teachers | Later |
+| Runtime AI for students (an "explain my mistake" feature or a tutor) | Later, after an evaluation (D-29) |
+| Multiplication and division, other units, subjects and grades | Later (D-27, D-31) |
+| Retaking the diagnostic, automatic review of mastered skills, spaced repetition | Later |
+| Drag-and-drop ordering, interactive number lines, other answer types | Later (D-33) |
+| Opening or signing in offline, several downloaded units (L2) | Later, if use shows the need (D-36) |
+| Payments, trials, subscriptions, school calendar, admin area | When the business model is decided (D-32) |
+| Public demo with "Try as" buttons and a nightly reset | Later (D-20, D-40) |
+| Privacy notice, guardian consent, data export, sign-in security review | Stage C prerequisites |
+| Chat, discussions and leaderboards | Not planned (D-11) |
+
+---
+
+## Success criteria (Q-11, proposed)
+
+The test runs for **two weeks**, with at least **four practice sessions**. The owner notes each time his son asks for help with the app. The numbers below are proposals to confirm before the test starts:
+
+| # | Question | Measure | Proposed target |
+|---|---|---|---|
+| 1 | Independent use | Help requests about using the app, after the first 5 minutes | At most 2 per session, falling over the two weeks |
+| 2 | Correct checking | Answers marked wrongly (server mismatches, and cases where the student was right) | **0** |
+| 3 | Connection drops | Answers lost or counted twice, across real drops and at least 3 deliberate airplane-mode tests | **0** |
+| 4 | Content quality | Errors found in the reviewed content | Each one fixed and counted; no target, reported honestly |
+| 5 | Learning signal | Skills the diagnostic found missing that reach mastery | At least half, reported as a description, not as proof |
+| 6 | Hints | Hint uses followed by a right answer on the next try | Reported; no target |
+| 7 | Voluntary return | Days he practised without being asked | Reported; no target, because a parent's influence can't be separated |
+
+Every result states its limits: one student, the developer's son, and a unit he had already studied.
+
+## Size
+
+About **16–17 focused days of development**, plus about **4–5 days of content writing and review**. The implementation plan (step 6) refines this.
+
+| Work | Days |
+|---|---|
+| Foundation: repo, tooling, CI, test setup, deployment | 1 |
+| Teacher sign-in (restricted), workspace, class, subject, students, PINs, deleting a student | 1.5 |
+| Student sign-in, sessions, lockout, switching students | 0.75 |
+| Content files: schema, loading, validation, lesson display, digits and minus signs | 2 |
+| Item templates, answer checking, the keypad | 2 |
+| Feedback, hints and worked solutions | 1 |
+| Diagnostic test and starting point | 1.5 |
+| Mastery, learning path and progress | 1.5 |
+| Attempts, the sync Route Handler and the server's re-check | 1.5 |
+| Offline: service worker, caching, per-student queues on the phone, sync status | 2.5 |
+| The evaluation script | 0.5 |
+| Real-device checks, README, private deployment | 1 |
+| **Total** | **≈ 16.75** |
+
+This is about a day more than earlier estimates. Per-student queues (D-38) and the lesson display were counted more carefully.
 
 ## Realism notes
 
-- **Grades 1–2:** text-only questions realistically suit grades **3–6**. The MVP accepts grades 1–6 as data, but the demo content is grade 3.
-- **AI quality:** AI drafts in Arabic for young children will sometimes be wrong or too hard. That's exactly why every draft goes through teacher review (D-08).
-- **Size:** about **8 focused working days**, including setup, tests, CI and docs. The school calendar added about half a day, and the demo sign-in buttons with the nightly reset (D-20) another half day. Splitting classes and subjects (D-22) adds a few hours, within that estimate. The cut line below brings it to about 7. The implementation plan (step 6) refines this to about 8.5 days plus one buffer day.
+- **Content is the largest hidden cost.** Each skill needs a lesson, templates, misconceptions, hints and a worked solution, all reviewed: about 2–3 hours per skill.
+- **Text-only lessons may not be enough to teach a new idea.** Stage A tests review and remediation of a unit the student has already studied.
+- **A sample of one.** Stage A shows whether the product works for a real learner, not whether it improves learning in general.
 
 ## Cut line (if behind schedule)
 
 Cut in this order, and list each cut under "Known limitations" in the README:
 
-1. The "needs review" flag on the results page (keep the grid).
-2. The printable roster (the teacher reads PINs from the class page).
-3. The admin workspace list (keep the payment notices list).
-4. AI summaries (keep AI questions, which are the bigger value).
-5. Editing materials and teacher-written questions (keep create and delete; AI drafts stay editable).
+1. The end-of-session summary.
+2. Per-skill counts on the progress screen (keep the states).
+3. Fewer templates per skill (at least one each).
+4. The evaluation script's summary (keep a raw export).
 
-**Never cut:** PIN lockout, tenant isolation, the audit record on payment decisions, and teacher review of AI drafts.
+**Never cut:** correct answer checking and the server's re-check; no lost or duplicated answers; the privacy rules (D-40); PIN lockout; tenant isolation; the owner's review of all content.
 
-## Phase 1 definition of done
+## Stage A definition of done
 
+**Building is done when:**
 - Every in-scope feature is merged through its own PR with CI passing.
-- Domain logic (access rules, subscription periods and calendar validation, AI quota, payment notice states, AI output validation, question selection, mastery, PIN lockout) is covered by unit tests, and the core E2E flow passes in CI.
-- The app is deployed, and the README explains the demo sign-in, and has screenshots and an architecture overview.
-- ADRs exist for the key decisions.
-- No real student data and no real payments are processed.
+- The domain rules are covered by unit tests: answer checking, templates, mastery, the learning path, the diagnostic, PIN lockout and sync. The E2E journeys pass, including practising offline and syncing afterwards.
+- The content has passed the owner's review.
+- The private deployment runs on the son's Android phone with Chrome.
+- The README describes the current state (there's no public demo).
+- No real student data is in the repo.
+
+**Stage A is done when** the two-week family test has run, the success criteria have been reported with their limits, and the owner has decided whether to start Stage B.

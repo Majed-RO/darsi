@@ -14,7 +14,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 ## Start here
 
 1. [docs/PLAN.md](docs/PLAN.md): background, stages, **decisions log (D-01 to D-43)** with the current status of D-01 to D-23, open questions, facts to verify, future features, planning status.
-2. [docs/plan/01-mvp-scope.md](docs/plan/01-mvp-scope.md): the scope, **being rewritten for Stage A**.
+2. [docs/plan/01-mvp-scope.md](docs/plan/01-mvp-scope.md): the Stage A scope, **draft v4 in review**.
 3. [docs/plan/02-architecture.md](docs/plan/02-architecture.md): architecture and data model, **being revised (v3)**.
 4. [docs/plan/03-testing-strategy.md](docs/plan/03-testing-strategy.md): testing strategy, **being revised**.
 5. [docs/plan/04-repo-and-workflow.md](docs/plan/04-repo-and-workflow.md): repo setup, CI, PR and commit conventions, **small revision pending**.
@@ -31,7 +31,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 | Step | Status |
 |---|---|
 | 1. Project idea and strategy (PLAN.md) | ✅ Revised (D-24 to D-43) |
-| 2. Scope (Stage A) | 🔄 To be rewritten |
+| 2. Scope (Stage A) | 🔄 Draft v4, in review |
 | 3. Architecture and data model | 🔄 To be revised (v3) |
 | 4. Testing strategy | 🔄 To be revised |
 | 5. Repo setup, CI, PR and commit conventions | 🔄 Small revision |
@@ -39,7 +39,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 
 **Git:** `main` holds one local commit (the plan as approved on 2026-11-22, `LICENSE`, `README.md`). The revision happens on the local branch `docs/replan-stage-a`, one commit per document, and becomes the first PR once the GitHub repo exists.
 
-**Next action:** rewrite `docs/plan/01-mvp-scope.md` as the Stage A scope, then the other documents in order, each reviewed by the owner before the next.
+**Next action:** the owner reviews the Stage A scope (`docs/plan/01-mvp-scope.md`, draft v4); then the architecture, testing, repo and implementation documents are revised in that order, each reviewed before the next.
 
 ## Working agreement
 

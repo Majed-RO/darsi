@@ -47,7 +47,7 @@ The plan approved on 2026-11-22 is being revised for Stage A after the strategy 
 | Step | Document | Status |
 |---|---|---|
 | 1. Project idea and strategy | This file | ✅ Revised (2026-11-23) |
-| 2. Scope (Stage A) | [plan/01-mvp-scope.md](plan/01-mvp-scope.md) | 🔄 To be rewritten for Stage A |
+| 2. Scope (Stage A) | [plan/01-mvp-scope.md](plan/01-mvp-scope.md) | 🔄 Draft v4, in review |
 | 3. Architecture and data model | [plan/02-architecture.md](plan/02-architecture.md) | 🔄 To be revised (v3) |
 | 4. Testing strategy | [plan/03-testing-strategy.md](plan/03-testing-strategy.md) | 🔄 To be revised |
 | 5. Repo setup, CI, PR and commit conventions | [plan/04-repo-and-workflow.md](plan/04-repo-and-workflow.md) | 🔄 Small revision |
