@@ -309,6 +309,7 @@ Migrations run in the Vercel build (`prisma migrate deploy`). From Stage A on, t
 |---|---|
 | Teacher dashboard and skill gaps (Stage B) | The server already has every attempt, and `mastery` runs on the server too, so a class view is a new query and page |
 | Teacher intervention (Stage B) | A new table (for example a skill assigned to a student) read by the practice app's learning path |
+| Guardians and their children (Stage B, D-44) | `Workspace` gets a type (teacher or guardian). Each child is a `Class` of one with its own grade and subjects, so children in different grades need nothing new. A guardian uses the same dashboard and intervention as a teacher. One `User` with two memberships can be both |
 | Synthetic data for Stage B | A seed script that creates attempts through the same domain rules |
 | Several teachers per school | `Membership.role` gets `TEACHER`; `Subject.teacherId` already separates the owner from each subject's teacher (D-13, D-22) |
 | More units, subjects and grades | New folders in `content/`; a class gets more subjects (D-24) |

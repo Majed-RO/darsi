@@ -36,7 +36,7 @@ Stages replace the earlier phases (D-28). Stages A and B are two steps of one pr
 | Stage | Goal | Data | Status |
 |---|---|---|---|
 | **A — Student prototype** | One student can learn and practise one unit fairly independently: lessons, a diagnostic test, practice with feedback and hints, progress, and practice that survives connection drops | Family testing with the owner's son only (D-40) | Plan approved (2026-11-23); building next |
-| **B — Teacher-supervised prototype** | Teacher role and access, classes, a progress dashboard, skill gaps, and teacher intervention | Test accounts and synthetic data | After Stage A |
+| **B — Supervised prototype (teachers and guardians)** | Both sides of the hybrid model (D-44): a teacher with classes, or a guardian with children who choose their subjects; a progress dashboard, skill gaps, and intervention by the teacher or guardian | Test accounts and synthetic data | After Stage A |
 | **C — Pilot beyond the family** | Real students and teachers outside the family | Real data: the Stage C prerequisites come first, and development moves to a private repo (D-17) | After Stage B |
 | **Later** | Unscheduled ideas (see "Future features") | — | — |
 
@@ -104,6 +104,7 @@ Decisions keep their original wording. When a later decision changes one, the ch
 | D-41 | **APPROVED · Digits.** Numbers are shown in Arabic-Indic digits (١٢٣), as in the UNRWA cards. Typed input accepts Arabic-Indic, Persian and Western digits. A negative number is shown as "-٥", with its direction isolated explicitly so a right-to-left page never shows it as "٥-" | Matches what the student sees at school; minus signs in right-to-left pages are a common source of display bugs |
 | D-42 | **APPROVED · Repository housekeeping.** `AGENTS.md` is the single file of instructions for AI tools, and `CLAUDE.md` only imports it. The ChatGPT planning pack lives in `private/`. Commits use the owner's GitHub name (Majed-RO) with GitHub's no-reply email, and the license names Majed-RO, so the owner's real name stays out of the public repo. Decisions carry a state (APPROVED, PROPOSED, OPEN) and outside facts are VERIFY items | One source of instructions can't drift into two versions. The planning pack contains business details. The owner prefers not to publish his name |
 | D-43 | **APPROVED · Test device.** The son uses an Android phone with Chrome, and the connection sometimes drops. E2E tests stay on Chromium with a phone profile, and the family test exercises L1 in real conditions, alongside deliberate offline tests | No WebKit testing is needed for Stage A |
+| D-44 | **APPROVED · Two ways in: teacher or guardian, both in Stage B.** Extends D-24 and D-28. At sign-up an adult chooses "teacher" or "guardian", stored as the workspace's type. **A teacher** has classes, each with its students and subjects (D-22), and can teach several subjects in several classes. **A guardian** has children; each child is a class of one, with the child's own grade and subjects, chosen from the available content by the guardian or the child. Children sign in the same way in both cases (a code, a first name and a PIN). The progress dashboard, skill gaps and intervention are shared, with wording for each role. One person can be both, with one account and a workspace for each role. A child who is in a teacher's class and also learns at home has two separate records until the guardian links them (Later, D-22). Children don't sign up alone: a guardian signs up once and gives consent; in lower grades the guardian guides the child, and in upper grades the child then learns on his own (legal check before Stage C, V-05). Stage A doesn't change: the owner is in practice the guardian of one child. Adds about 2–3 days to Stage B | The hybrid model was the owner's direction from the start, but only the teacher side had a stage. A guardian works like a teacher on the same data model, so both sides can be tested together at little extra cost |
 
 ### Current status of D-01 to D-23
 
@@ -144,6 +145,7 @@ Before any student from outside the family signs in:
 - A sign-in security review: guessing PINs across a class, and locking students out on purpose (D-38)
 - A qualified reviewer for the content (Q-12)
 - Moving development to a private repo and archiving the public one (D-17). Step-by-step: [runbooks/stage-c-move-to-private-repo.md](runbooks/stage-c-move-to-private-repo.md)
+- Opening sign-up to teachers and guardians outside the family; the allowlist stays until then (D-40, D-44)
 - Before the first paying customer: terms of service and a refund policy (D-32)
 
 ### School workspaces with several teachers (Later)
@@ -168,7 +170,7 @@ Unscheduled. Each item is decided when its time comes:
 - A runtime AI tutor, after an evaluation of accuracy, cost and safety (D-29)
 - Full offline support (L2): several downloaded units, signing in offline (D-36)
 - Images and audio in content (needed for grades 1–2)
-- Parent accounts, including linking a child's logins across workspaces (a school, a private tutor, a learning center) (D-22)
+- Linking a child's records across workspaces (a school, a private tutor, a learning center, home), owned by the guardian with consent (D-22, D-44)
 - Payments, once the business model is decided (D-32): manual payment notices (D-06), receipt uploads, invoices, alerts when a payment notice arrives (SMS as an option alongside email, Telegram or WhatsApp), extra AI packs
 - The public demo with "Try as teacher" and "Try as admin" buttons and a nightly reset (D-20)
 - An importer from the Ministry's site or Moodle, after a written OK (D-09)

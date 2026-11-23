@@ -166,6 +166,7 @@ A local script summarizes the family test from the database: sessions, attempts,
 | Item | Where it goes |
 |---|---|
 | Teacher dashboard, skill-gap analysis, directing students to skills or practice | Stage B |
+| Guardian sign-up, children with their own subjects, choosing subjects from the available content | Stage B (D-44) |
 | Teacher additions to the content, and AI help for teachers | Later |
 | Runtime AI for students (an "explain my mistake" feature or a tutor) | Later, after an evaluation (D-29) |
 | Multiplication and division, other units, subjects and grades | Later (D-27, D-31) |

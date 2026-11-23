@@ -6,14 +6,14 @@ Instructions for AI coding sessions on this project. `CLAUDE.md` only imports th
 
 Darsi is an Arabic, mobile-first learning and practice platform for students in Palestine, meant to cover several subjects and grades. It starts with one math unit in grade 7, chosen for testing, not as a limit (D-25, D-26). Don't hard-code math or grade 7 into the data or content model (D-24). It follows a limited hybrid model (D-24):
 - **Students** take a short diagnostic test, then practise the skills they're missing, including prerequisites from earlier grades, with feedback and hints that help them think. Practice keeps working when the connection drops.
-- **Teachers** follow their students' progress and step in when needed (Stage B).
+- **Teachers** follow their classes' progress and step in when needed. **Guardians** do the same for their own children, who can also learn on their own (Stage B, D-44).
 - **AI** helps write the content, and a person reviews everything before students see it. Students don't use AI in the prototype (D-29, D-30).
 
 Darsi is supplemental: no official grades, and no replacement for official assessment. It's also a portfolio project, so engineering quality matters more than the number of features.
 
 ## Start here
 
-1. [docs/PLAN.md](docs/PLAN.md): background, stages, **decisions log (D-01 to D-43)** with the current status of D-01 to D-23, open questions, facts to verify, future features, planning status.
+1. [docs/PLAN.md](docs/PLAN.md): background, stages, **decisions log (D-01 to D-44)** with the current status of D-01 to D-23, open questions, facts to verify, future features, planning status.
 2. [docs/plan/01-mvp-scope.md](docs/plan/01-mvp-scope.md): the **approved** Stage A scope (v4).
 3. [docs/plan/02-architecture.md](docs/plan/02-architecture.md): the **approved** architecture and data model (v3).
 4. [docs/plan/03-testing-strategy.md](docs/plan/03-testing-strategy.md): the **approved** testing strategy.
@@ -30,7 +30,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 
 | Step | Status |
 |---|---|
-| 1. Project idea and strategy (PLAN.md) | ✅ Revised (D-24 to D-43) |
+| 1. Project idea and strategy (PLAN.md) | ✅ Revised (D-24 to D-44) |
 | 2. Scope (Stage A) | ✅ Approved (v4) |
 | 3. Architecture and data model | ✅ Approved (v3) |
 | 4. Testing strategy | ✅ Approved (Stage A revision) |
@@ -47,7 +47,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 - **Discussion with the owner is in Arabic**, with technical terms in English where clearer. **Every file is written in English.** The product UI is Arabic.
 - **Be direct.** If an idea, scope or timeline seems unrealistic, say so and explain the cost.
 - When the owner asks to discuss questions one by one, present one question with options and a recommendation, then wait.
-- **Record every decision** in the PLAN.md decisions log (the next number is **D-44**), with its state (APPROVED, PROPOSED or OPEN), and keep its planning status table current. Never rewrite an older decision: record its new status in "Current status of D-01 to D-23" or in a new decision. Step details go in `docs/plan/`. During implementation, technical decisions become ADRs in `docs/adr/`.
+- **Record every decision** in the PLAN.md decisions log (the next number is **D-45**), with its state (APPROVED, PROPOSED or OPEN), and keep its planning status table current. Never rewrite an older decision: record its new status in "Current status of D-01 to D-23" or in a new decision. Step details go in `docs/plan/`. During implementation, technical decisions become ADRs in `docs/adr/`.
 - **The owner must see every code change:** edit code with the editor's edit tools, never with shell scripts, so each change appears as a diff in VS Code. Files that tools write themselves (scaffolding, lockfiles, generated migrations) are reviewed in the Source Control view instead.
 - **The plan's days are focused days of work, not consecutive calendar days;** the owner sometimes pauses. During implementation, every PR updates "Current status" as its last commit (what it completes and the next PR), so the status reaches `main` with the merge and work resumes cleanly after a pause.
 - **The whole Stage A plan was approved on 2026-11-23.** Build in the order of `docs/plan/05-implementation-plan.md`, following its daily routine (section 3).
@@ -66,9 +66,9 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 
 ## Product essentials
 
-Details are in PLAN.md (D-24 to D-43) and the Stage A scope document.
+Details are in PLAN.md (D-24 to D-44) and the Stage A scope document.
 
-- **Stages (D-28):** A, the student prototype tested in the family; B, the teacher-supervised prototype on test accounts and synthetic data; C, a pilot beyond the family, which needs the Stage C prerequisites first. Other ideas are on the "Later" list.
+- **Stages (D-28, D-44):** A, the student prototype tested in the family; B, the supervised prototype for both teachers and guardians, on test accounts and synthetic data; C, a pilot beyond the family, which needs the Stage C prerequisites first. Other ideas are on the "Later" list.
 - **First unit (D-27):** integers, from the UNRWA grade 7 cards, in this order: number line and opposites → comparing and ordering → absolute value → addition → subtraction.
 - **Content (D-26, D-39):** a skill map with prerequisites, a short diagnostic, original reviewed lessons, item templates that generate questions, and hints and misconception messages; all stored as files in the repo.
 - **Answers (D-33, D-41):** a whole number typed on Darsi's own keypad, or multiple choice (comparison and true/false included). Arabic-Indic digits on screen; negatives shown as "-٥".
