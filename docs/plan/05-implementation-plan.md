@@ -117,16 +117,16 @@ The routine around the code takes about an hour per PR; the effort estimates ass
 | 3 | `feat(ui): add the Arabic right-to-left app shell` | `<html lang="ar" dir="rtl">`, IBM Plex Sans Arabic, `messages/ar.ts`, the route groups (teacher, student sign-in, practice app), the web app manifest, the `digits` module and the number display component. **ADR 010, 011** | Unit and property tests for `digits`; E2E smoke test with axe and the number display check. **Early check:** the font, Arabic-Indic digits and "-٥" on the son's phone | 0.5 |
 | 4 | `feat(offline): add the service worker and the phone-side store` | **A spike first:** the service worker caches the static practice app, which opens in airplane mode. Then `client/`: the IndexedDB store with per-student queues, and the sync-state indicator (still without a server). **ADR 013** | Unit tests for the store with `fake-indexeddb`; E2E: the practice app opens offline after a first visit. **Early checks:** the service worker library with Next.js 16; `navigator.storage.persist()` on the son's phone | 0.75 |
 
-### Days 3–4 — Sign-in → tag `v0.2.0`
+### Days 3–5 — Sign-in → tag `v0.2.0`
 
 | # | PR | What's in it | Tests and checks | Effort |
 |---|---|---|---|---|
 | 5 | `feat(auth): add teacher sign-in with the allowlist` | Clerk in the teacher pages only, in Arabic; the teacher allowlist from configuration; `User`, `Workspace` and `Membership`; `ensureWorkspace()` with its race handling; `server/auth`. **ADR 004** | Integration tests for the allowlist and the first-sign-in race; E2E journey 1, first part. **Early checks:** Clerk's screens in Arabic right to left; whether Clerk can restrict sign-ups on the free plan | 0.5 |
 | 6 | `feat(classes): add classes and subjects` | `Class` (grade 1–12) and `Subject` pointing to a content subject and grade (D-22, D-24); the `join-code` module; teacher pages; the **isolation guard** test. **ADR 006, 014** | Unit tests for `join-code`; isolation tests and the guard; constraint tests; E2E journey 8 | 0.5 |
-| 7 | `feat(students): add students, PINs and deletion` | `Student`; PINs generated, hashed and shown once; resetting a PIN; deleting a student with all their data | Unique name per class; isolation tests; the deletion transaction; E2E journey 1 completed | 0.5 |
-| 8 | `feat(students): add class code, name and PIN sign-in` | `StudentSession`; the `pin` module; Darsi's keypad for the PIN; digit and case normalization; the session cookie; storing the current student on the phone; "Not you? Switch student" with each student's waiting count. **ADR 005** | Unit tests for `pin`; integration tests for sessions and revocation; E2E journey 2 | 0.75 |
+| 7 | `feat(students): add students, PINs and deletion` | `Student`; one-time temporary PINs generated, hashed and shown once (D-45); resetting a PIN back to a temporary one; deleting a student with all their data | Unique name per class; isolation tests; the deletion transaction; E2E journey 1 completed | 0.5 |
+| 8 | `feat(students): add class code, name and PIN sign-in` | `StudentSession`; the `pin` module; Darsi's keypad for the PIN; the student choosing his own PIN at the first sign-in (D-45); digit and case normalization; the session cookie; storing the current student and the PIN's hash for the app lock on the phone; "Not you? Switch student" with each student's waiting count. **ADR 005** | Unit tests for `pin`; integration tests for sessions, revocation and choosing a PIN; E2E journey 2 | 1.0 |
 
-### Days 5–8 — Content model and the practice core
+### Days 5–9 — Content model and the practice core
 
 | # | PR | What's in it | Tests and checks | Effort |
 |---|---|---|---|---|
@@ -142,7 +142,7 @@ The routine around the code takes about an hour per PR; the effort estimates ass
 | 12 | `feat(practice): add feedback, hints and worked solutions` | The `feedback` module: misconception messages, a second try, two hint levels, the worked solution after two wrong tries (D-35); unmatched wrong answers are marked (D-29) | Unit tests for `feedback`; E2E journey 4 continued | 1.0 |
 | 13 | `feat(sync): add attempts, sync and the server's re-check` | `Attempt` with its constraints and the `UPDATE` trigger; `POST /api/sync` with push and pull; the session, origin and ownership checks; the re-check and flags; the queue flushed on success; a `401` keeps the queue. **ADR 015** | Integration tests for no duplicates, the re-check, sessions and pull; the trigger test; the isolation guard covers the handler | 1.5 |
 
-### Days 11–14 — The AI script and content
+### Days 12–14 — The AI script and content
 
 | # | PR | What's in it | Tests and checks | Effort |
 |---|---|---|---|---|
@@ -162,11 +162,11 @@ The routine around the code takes about an hour per PR; the effort estimates ass
 | 15 | `feat(diagnostic): add the diagnostic test and starting point` | The `diagnostic` module; the diagnostic screens with no hints; resuming after an interruption; the summary of what the student already knows and where he starts | Unit tests for `diagnostic`; E2E journey 3 | 1.5 |
 | 16 | `feat(progress): add mastery, the learning path and progress` | The `mastery` module (D-34) with its thresholds in configuration; the recommended next skill and free choice with the prerequisite notice; the progress screen with skill states and counts. **ADR 016** | Unit and property tests for `mastery`, at the exact boundaries; E2E journey 4 completed | 1.5 |
 
-### Days 18–20 — Offline completed and the rest of the content
+### Days 18–21 — Offline completed and the rest of the content
 
 | # | PR | What's in it | Tests and checks | Effort |
 |---|---|---|---|---|
-| 17 | `feat(offline): complete limited offline (L1)` | The unit bundle and templates cached; sync on opening, on reconnecting and after each session; persistent storage requested; the content-update flow; the sign-in screen's waiting counts tied to real queues | E2E journeys 5, 6, 7 and 9; the real-phone checklist (testing strategy, section 6), first run | 1.75 |
+| 17 | `feat(offline): complete limited offline (L1)` | The unit bundle and templates cached; sync on opening, on reconnecting and after each session; persistent storage requested; the content-update flow; the sign-in screen's waiting counts tied to real queues; the `app-lock` module and lock screen (D-45) | Unit tests for `app-lock`; E2E journeys 5, 6, 7, 9 and 10; the real-phone checklist (testing strategy, section 6), first run | 2.0 |
 | C4 | `content(integers): add absolute value and addition` | Lessons, templates, misconceptions, hints and worked solutions | Property tests for every template | 1.0 |
 | C5 | `content(integers): add subtraction and word problems, and review the unit` | The last skills, then a full read-through of the unit on the phone | Property tests for every template; the unit is marked published only when every text is reviewed | 0.75 |
 
@@ -179,9 +179,9 @@ The routine around the code takes about an hour per PR; the effort estimates ass
 
 ## 5. Total, buffer and cut line
 
-**Total: about 21.75 focused days:** about 17.25 days of development and about 4.5 days of content.
+**Total: about 22.25 focused days:** about 17.75 days of development and about 4.5 days of content.
 
-The development figure is half a day more than the scope's first estimate, because the AI content-writing script (PR 14) wasn't counted there; the scope's size table now includes it. The content figure is checked after C1, which is timed.
+The development figure matches the scope's size table, which now includes the AI content-writing script (PR 14) and the student-chosen PIN and app lock (PRs 8 and 17, D-45). The content figure is checked after C1, which is timed.
 
 **Keep two buffer days of work** in reserve: the early checks in PRs 3, 4 and 5 can each fail, and the content can take longer than planned. Each early check has a fallback in the architecture's risk table, but a fallback costs time.
 
@@ -197,7 +197,7 @@ If time runs short, cut in this order (the scope's cut line, then the testing st
 | 6 | The automated weight check (do Lighthouse by hand) | 11 | ~0.1 day |
 | 7 | E2E journeys 7, 8 and 9 (keep their integration tests) | 6, 17 | ~0.2 day |
 
-**Never cut:** correct answer checking and the property test of every template; the server's re-check; no lost or duplicated answers (the sync tests and E2E journeys 2 to 6); the `UPDATE` trigger; PIN lockout; tenant isolation and its guard; the privacy rules (D-40); your review of every piece of content; the real-phone checklist.
+**Never cut:** correct answer checking and the property test of every template; the server's re-check; no lost or duplicated answers (the sync tests and E2E journeys 2 to 6); the `UPDATE` trigger; the student-chosen PIN and the app lock (D-45, E2E journey 10); PIN lockout; tenant isolation and its guard; the privacy rules (D-40); your review of every piece of content; the real-phone checklist.
 
 ## 6. Pausing and resuming
 
@@ -218,7 +218,7 @@ Gaps between days are expected. The plan is ordered by what depends on what, not
 The build is done, and the family test can start, when every item of the scope's definition of done holds:
 
 - [ ] Every in-scope feature (or its cut, listed in the README) merged through its own PR with CI green
-- [ ] `domain/` coverage at 90% or more; every template has its property test; E2E journeys 2 to 6 pass in CI
+- [ ] `domain/` coverage at 90% or more; every template has its property test; E2E journeys 2 to 6 and 10 pass in CI
 - [ ] Every text in the integers unit reviewed, and the unit marked published
 - [ ] The private deployment runs on the son's Android phone with Chrome; the real-phone checklist passes
 - [ ] The teacher allowlist holds only your email; the OpenRouter key has its credit limit

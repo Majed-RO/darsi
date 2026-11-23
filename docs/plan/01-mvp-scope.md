@@ -23,8 +23,8 @@ The numbers that count as success are proposed under "Success criteria" and are 
 
 | Role | Who | Can do in Stage A |
 |---|---|---|
-| **Teacher** | The owner only; Clerk sign-up is restricted to his email (D-38, D-40) | Create one class with a Math subject linked to the grade 7 math content, add students, get and reset their PINs, delete a student's data |
-| **Student** | The owner's son (D-25) | Sign in with the class code, his first name and a PIN; take the diagnostic; read lessons; practise; see his progress |
+| **Teacher** | The owner only; Clerk sign-up is restricted to his email (D-38, D-40) | Create one class with a Math subject linked to the grade 7 math content, add students, get a one-time temporary PIN for each, reset it, delete a student's data. Never sign in as a student (D-45) |
+| **Student** | The owner's son (D-25) | Sign in with the class code, his first name and a PIN he chooses himself; take the diagnostic; read lessons; practise; see his progress. Only he can open his space (D-45) |
 | **Content author and reviewer** | The owner, outside the app | Write the content files with help from the AI script, and review everything before it's published (D-29, D-30) |
 
 There's no admin area in Stage A: there are no payments, trials or subscriptions (D-32). The teacher's dashboard, skill-gap analysis and interventions are Stage B.
@@ -40,7 +40,7 @@ There's no admin area in Stage A: there are no payments, trials or subscriptions
 - Clerk sign-in. Sign-up is restricted to the owner's email; nobody else can create a teacher account.
 - The first sign-in creates the teacher's workspace (D-13).
 - Create a class with a name and a grade (1–12) and its join code from an alphabet without look-alike characters. Add one subject to it, linked to a subject and grade in the core content: in Stage A, math for grade 7, with its one unit (D-22, D-38).
-- Add students by first name (unique within the class). Darsi generates a 4-digit PIN for each one and shows it once, when it's created or reset; only its hash is stored. The teacher can reset it at any time.
+- Add students by first name (unique within the class). Darsi generates a **one-time temporary 4-digit PIN** for each one and shows it once; only its hash is stored. The student replaces it with his own PIN at the first sign-in, so the teacher never knows the real one (D-45). Resetting gives a new temporary PIN the same way.
 - **Delete a student completely:** the student, the sessions and every attempt (D-37, D-40).
 - No other teacher pages in Stage A.
 
@@ -49,8 +49,10 @@ There's no admin area in Stage A: there are no payments, trials or subscriptions
 1. Enter the class code.
 2. Pick a first name from the class list.
 3. Enter the PIN on Darsi's keypad.
+4. **First sign-in only:** choose a new 4-digit PIN, different from the temporary one, and type it twice. Nobody else sees it (D-45).
 
 - After **5 wrong PINs**, that student is locked out for **15 minutes**. The 4-digit PIN's weakness is accepted for Stages A and B and reviewed before Stage C.
+- **App lock (D-45):** Darsi asks for the student's PIN every time it's opened and after **10 minutes** without use (configurable). It's checked on the phone, so it works offline; 5 wrong PINs lock it for 15 minutes. "Switch student" is available from the lock screen.
 - The session is long-lived, because family phones are shared.
 - **"Not you? Switch student"** is always visible. Each student's unsynced answers stay on the phone in their own queue and are sent the next time that student signs in with a connection.
 - The sign-in screen shows how many answers each student has waiting on this phone ("Ahmad: 7 answers saved on this phone. Sign in to send them").
@@ -198,26 +200,26 @@ Every result states its limits: one student, the developer's son, and a unit he 
 
 ## Size
 
-About **17 focused days of development**, plus about **4–5 days of content writing and review**. The implementation plan (step 6) refines this.
+About **18 focused days of development**, plus about **4–5 days of content writing and review**. The implementation plan (step 6) refines this.
 
 | Work | Days |
 |---|---|
 | Foundation: repo, tooling, CI, test setup, deployment | 1 |
 | Teacher sign-in (restricted), workspace, class, subject, students, PINs, deleting a student | 1.5 |
-| Student sign-in, sessions, lockout, switching students | 0.75 |
+| Student sign-in, sessions, lockout, switching students, choosing one's own PIN | 1 |
 | Content files: schema, loading, validation, lesson display, digits and minus signs | 2 |
 | Item templates, answer checking, the keypad | 2 |
 | Feedback, hints and worked solutions | 1 |
 | Diagnostic test and starting point | 1.5 |
 | Mastery, learning path and progress | 1.5 |
 | Attempts, the sync Route Handler and the server's re-check | 1.5 |
-| Offline: service worker, caching, per-student queues on the phone, sync status | 2.5 |
+| Offline: service worker, caching, per-student queues on the phone, sync status, the app lock | 2.75 |
 | The AI content-writing script | 0.5 |
 | The evaluation script | 0.5 |
 | Real-device checks, README, private deployment | 1 |
-| **Total** | **≈ 17.25** |
+| **Total** | **≈ 17.75** |
 
-This is more than earlier estimates. Per-student queues (D-38) and the lesson display were counted more carefully, and the AI content-writing script was added when the implementation plan was written.
+This is more than earlier estimates. Per-student queues (D-38) and the lesson display were counted more carefully, the AI content-writing script was added when the implementation plan was written, and the student-chosen PIN and the app lock (D-45) add half a day.
 
 ## Realism notes
 
@@ -234,7 +236,7 @@ Cut in this order, and list each cut under "Known limitations" in the README:
 3. Fewer templates per skill (at least one each).
 4. The evaluation script's summary (keep a raw export).
 
-**Never cut:** correct answer checking and the server's re-check; no lost or duplicated answers; the privacy rules (D-40); PIN lockout; tenant isolation; the owner's review of all content.
+**Never cut:** correct answer checking and the server's re-check; no lost or duplicated answers; the privacy rules (D-40); the student-chosen PIN and the app lock (D-45); PIN lockout; tenant isolation; the owner's review of all content.
 
 ## Stage A definition of done
 

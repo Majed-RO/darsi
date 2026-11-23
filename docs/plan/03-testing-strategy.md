@@ -45,7 +45,8 @@ Time (`now`) and randomness (a seeded generator) are passed in, so every case is
 | `diagnostic` | The fixed set of items; 2 of 2 right passes a skill; 1 of 2 doesn't; skills it doesn't cover stay "not started"; it can resume after an interruption |
 | `mastery` | Exactly 4 of the last 5 is mastered and 3 isn't; only first tries without a hint count; second tries and hinted answers don't; a skill passed in the diagnostic stays mastered until the first wrong attempt after it, then the last-5 rule applies; mastery drops back; the thresholds come from configuration |
 | `attempt` | Which attempts count for mastery; an unmatched wrong answer is recognized |
-| `pin` | Locked after the 5th failure for 15 minutes; unlocked at exactly 15 minutes; a success resets the counter; tries during a lockout are refused without being counted |
+| `pin` | Locked after the 5th failure for 15 minutes; unlocked at exactly 15 minutes; a success resets the counter; tries during a lockout are refused without being counted; a temporary PIN must be replaced, and the new PIN can't equal it (D-45) |
+| `app-lock` | Asks on every opening; asks after exactly 10 minutes without use, not before; the time comes from configuration; locked after the 5th wrong PIN for 15 minutes (D-45) |
 | `join-code` | No look-alike characters; typed codes match whatever their case, spaces and digit style |
 
 ### Content tests (`content/`)
@@ -98,7 +99,8 @@ With `fake-indexeddb`:
 | **Sync: re-check** | A right answer is stored as right on both sides. A phone result that differs from the server's is stored with the server's result and flagged. An attempt made with an outdated template version gets `serverCorrect = null` and is flagged. Parameters that don't match the seed are flagged |
 | **Sync: pull** | The answer includes the student's attempts the phone doesn't have yet, and only that student's |
 | **Sync: sessions** | No session, an expired session or a revoked session gets `401` and stores nothing. A request from another origin is refused |
-| Sessions | Only the token's hash is stored; a PIN reset revokes sessions |
+| Sessions | Only the token's hash is stored; a PIN reset revokes sessions and makes the PIN temporary again |
+| **Choosing a PIN (D-45)** | Signing in with a temporary PIN creates no session until a new PIN is chosen; a new PIN equal to the temporary one is refused; after it's chosen, the temporary PIN no longer works; no use case returns a student's PIN or its hash to a teacher |
 | **Deleting a student** | Removes the student's attempts and sessions in one transaction; a later sync for that student gets "not found" |
 
 ## 5. End-to-end tests (Playwright)
@@ -116,8 +118,8 @@ With `fake-indexeddb`:
 
 | # | Journey |
 |---|---|
-| 1 | **Teacher setup:** the allowed teacher signs in, creates a class and its Math subject, adds a student and sees the PIN once. A user who isn't on the allowlist is refused |
-| 2 | **Student sign-in:** the class code typed in Arabic-Indic digits, the name, the PIN on Darsi's keypad; the practice app opens. 5 wrong PINs lock the student; resetting the PIN ends the old session |
+| 1 | **Teacher setup:** the allowed teacher signs in, creates a class and its Math subject, adds a student and gets a temporary PIN once. A user who isn't on the allowlist is refused |
+| 2 | **Student sign-in:** the class code typed in Arabic-Indic digits, the name, the temporary PIN on Darsi's keypad; the student must choose his own PIN; the practice app opens; the temporary PIN no longer works. 5 wrong PINs lock the student; resetting the PIN ends the old session |
 | 3 | **Diagnostic:** the student takes it, sees what he already knows, and gets the recommended next skill |
 | 4 | **Practice and feedback:** a wrong answer shows its misconception message and allows another try; hints on request; the worked solution after two wrong tries; the progress screen updates; a skill reaches mastery |
 | 5 | **Offline (never cut):** sign in; go offline; reload the practice app and it still opens; practise a full session; the waiting count shows; close and reopen the page; go back online; the answers sync once (the server's count equals the number of answers); a second sync adds nothing |
@@ -125,6 +127,7 @@ With `fake-indexeddb`:
 | 7 | **Deleting a student:** the teacher deletes the student; the data is gone, and the phone's queue for that student is cleared on the next sync |
 | 8 | **Isolation smoke test:** teacher B opening teacher A's class URL gets a not-found page |
 | 9 | **Content update:** after a new content version is deployed, the app picks it up on the next online opening, and new attempts carry the new version |
+| 10 | **App lock (D-45):** reopening Darsi asks for the PIN, online and offline; 10 minutes without use locks it (with a simulated clock); 5 wrong PINs lock it for 15 minutes; "Switch student" works from the lock screen |
 
 ### Extra checks
 
@@ -145,6 +148,7 @@ Run on the son's Android phone with Chrome before the family test, and again aft
 - [ ] Close the app while offline, reopen it, and check that the waiting answers are still there.
 - [ ] Switch airplane mode off: the answers sync, and the count returns to zero.
 - [ ] Check that persistent storage was granted (`navigator.storage.persisted()`).
+- [ ] Close Darsi and reopen it, online and in airplane mode: it asks for the PIN each time.
 - [ ] Negative numbers, Arabic-Indic digits and the font display correctly.
 - [ ] Measure the first load on the real connection.
 
@@ -193,4 +197,4 @@ If time runs short, cut in this order, and list each cut under "Known limitation
 2. The automated weight check (do Lighthouse by hand instead).
 3. E2E journeys 7, 8 and 9 (keep their integration tests).
 
-**Never cut:** the property test of every item template; `domain/` unit tests; tenant isolation tests and their guard; sync tests (no duplicates, re-check, sessions); the `UPDATE` trigger test; E2E journeys 2 to 6; the real-phone checklist.
+**Never cut:** the property test of every item template; `domain/` unit tests; tenant isolation tests and their guard; sync tests (no duplicates, re-check, sessions); the `UPDATE` trigger test; the PIN-choosing tests; E2E journeys 2 to 6 and 10; the real-phone checklist.

@@ -87,7 +87,8 @@ flowchart TD
 | `diagnostic` | The diagnostic's fixed set of items; where to resume after an interruption; which skills it passed (2 of 2) |
 | `mastery` | Skill states from attempts: 4 of the last 5 first-try answers without a hint, or passed in the diagnostic with no wrong attempt since (D-34) |
 | `attempt` | The attempt record's shape and the rules derived from it (counts for mastery, unmatched wrong answer) |
-| `pin` | Lockout after 5 failures for 15 minutes; reset on success |
+| `pin` | Lockout after 5 failures for 15 minutes; reset on success; a temporary PIN must be replaced by a different one before the first session (D-45) |
+| `app-lock` | When the phone must ask for the PIN: on every opening and after a set time without use; its own lockout after 5 failures (D-45) |
 | `join-code` | Class codes from an alphabet without look-alike characters; case-insensitive matching |
 
 ## 4. Content model (D-26, D-27, D-39)
@@ -169,6 +170,7 @@ erDiagram
     string classId FK "unique with displayName"
     string displayName "first name only"
     string pinHash
+    bool pinIsTemporary "true until the student chooses a PIN"
     int failedPinAttempts
     datetime lockedUntil "nullable"
   }
@@ -213,7 +215,7 @@ erDiagram
 | `Membership` | `workspaceId`, `userId`, `role` | Unique per workspace and user. Stage A has only `OWNER` (D-13) |
 | `Class` | `workspaceId`, `name`, `grade` (1–12), `joinCode` (unique) | A group of children (D-22) |
 | `Subject` | `classId`, `teacherId`, `contentSubject`, `contentGrade`, `position` | One subject taught to a class, pointing to a subject and grade folder in `content/`. Unique per class and content subject |
-| `Student` | `classId`, `displayName`, `pinHash`, `failedPinAttempts`, `lockedUntil` | Unique per class and name. First name only (D-40) |
+| `Student` | `classId`, `displayName`, `pinHash`, `pinIsTemporary`, `failedPinAttempts`, `lockedUntil` | Unique per class and name. First name only (D-40). The teacher only ever sees a temporary PIN; the student's own PIN is never shown or stored in plain text (D-45) |
 | `StudentSession` | `studentId`, `tokenHash` (unique), `expiresAt`, `revokedAt` | The cookie's token is looked up by its hash. Revoked when the teacher resets the PIN |
 | `Attempt` | see the diagram | **One record per answer** (each try), never changed (D-37). The phone makes its ID, so a repeated sync inserts it once (`ON CONFLICT DO NOTHING`). A database trigger rejects every `UPDATE`. Mastery counts only `tryNumber = 1` and `hintsBefore = 0`. Indexed by student, skill and time |
 
@@ -231,8 +233,11 @@ erDiagram
 **Student sign-in** (online only).
 1. The student enters the class code; the server shows the class's first names.
 2. The student picks a name and enters the PIN on Darsi's keypad; `pin` decides whether the student is locked out.
-3. The server checks the PIN hash, creates a `StudentSession`, and sets a secure HTTP-only cookie with a random token (only its hash is stored).
-4. The page stores the current student (ID, first name, class, subject) in IndexedDB and opens the practice app.
+3. The server checks the PIN hash. **If the PIN is temporary,** the student must choose a new PIN (typed twice, different from the temporary one) before anything else; the server stores its hash and clears `pinIsTemporary` (D-45).
+4. The server creates a `StudentSession` and sets a secure HTTP-only cookie with a random token (only its hash is stored).
+5. The page stores the current student (ID, first name, class, subject) in IndexedDB, with a **salted, slow hash of the PIN** for the app lock, and opens the practice app.
+
+**App lock** (on the phone, online or offline, D-45). Every time Darsi opens, and after 10 minutes without use, `app-lock` asks for the current student's PIN and checks it against the hash on the phone. 5 wrong PINs lock it for 15 minutes. "Switch student" is available from the lock screen. If the PIN was reset, the phone learns it at the next sync (`401`), and the student signs in again with the new temporary PIN.
 
 **Practising, online or offline.**
 1. The practice app loads the unit bundle and the student's attempts from IndexedDB, and computes skill states with `mastery`.
@@ -267,6 +272,8 @@ A `401` (expired or revoked session) keeps the queue and asks the student to sig
 |---|---|
 | Teacher | Clerk session **plus** the email allowlist in server configuration (D-38, D-40) |
 | Students | Random session token in an HTTP-only, Secure, SameSite cookie; only its hash is stored; revoked on PIN reset |
+| Who knows a PIN | Only the student: teachers and guardians get a one-time temporary PIN, and the student chooses the real one. No feature lets an adult sign in as a student (D-45) |
+| App lock | Asks for the PIN on every opening and after 10 minutes without use, checked against a salted, slow hash on the phone. It stops casual access on a shared phone; someone technical with the phone in hand could still read the phone's storage (see "Data on a shared phone") |
 | PINs | Hashed, with 5 tries every 15 minutes. **A 4-digit PIN is weak:** across a class of 30 a guess on some student succeeds in under a day, and anyone with the class code can lock students out. Accepted for Stages A and B (a secret class code, one child, synthetic data); reviewed before Stage C (D-38) |
 | Sync endpoint | Session required; the request's origin must be Darsi's; attempts must belong to the signed-in student; strict Zod validation; a maximum batch size and body size |
 | Authorization | Use cases never trust IDs from the browser. The workspace or student comes from the session, and every query is scoped by it |
@@ -326,7 +333,7 @@ Migrations run in the Vercel build (`prisma migrate deploy`). From Stage A on, t
 | 002 | Modular monolith on Next.js with a pure domain layer shared by the phone and the server (dependency rules enforced by lint) |
 | 003 | PostgreSQL + Prisma, hosted on Neon in Frankfurt next to Vercel's functions |
 | 004 | Clerk for the teacher, plus an app-level email allowlist |
-| 005 | Student login with class code, name and PIN; database sessions; the PIN's weakness accepted until Stage C |
+| 005 | Student login with class code, name and a PIN the student chooses; database sessions; the app lock; the PIN's weakness accepted until Stage C |
 | 006 | Tenant isolation by app-level scoping, proven by isolation tests |
 | 007 | Content as files: format, build, unit bundle, versions, review state, content license |
 | 008 | AI only in the content-writing script, through OpenRouter, with human review |

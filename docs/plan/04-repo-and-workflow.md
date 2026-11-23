@@ -53,7 +53,7 @@ darsi/
 ├─ client/                    browser-only code: IndexedDB store, per-student queues, sync client,
 │                             content loading, service worker registration
 ├─ domain/                    pure rules shared by phone and server: rng, item, answer, digits, feedback,
-│                             session, skill-map, diagnostic, mastery, attempt, pin, join-code
+│                             session, skill-map, diagnostic, mastery, attempt, pin, app-lock, join-code
 ├─ content/                   core content (D-39): LICENSE.md, then <subject>/<grade>/<unit>/
 ├─ ui/                        shadcn/ui components and shared UI, including the number display component
 ├─ messages/ar.ts             every piece of UI text
