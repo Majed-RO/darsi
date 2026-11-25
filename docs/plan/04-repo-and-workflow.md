@@ -105,7 +105,7 @@ Imports use the `@/` alias from the repo root, for example `@/domain/mastery`.
 - Required status checks: the CI jobs in section 9, and the branch must be up to date with `main`. Added after the CI PR merges.
 - All review conversations resolved before merging (CodeRabbit's included).
 - Linear history (squash merges only); no force pushes; `main` can't be deleted.
-- Required approving reviews: **none**. In a one-person repo GitHub doesn't let you approve your own PR, so the gate is green CI plus resolved CodeRabbit comments.
+- Required approving reviews: **none**. In a one-person repo GitHub doesn't let you approve your own PR, so the gate is green CI plus CodeRabbit's review with its comments resolved (section 10).
 
 ## 8. Commit and PR title conventions
 
@@ -162,7 +162,11 @@ Jobs run in parallel, with pnpm and Playwright browser caching, targeting under 
 
 ## 10. Code review with CodeRabbit
 
-CodeRabbit is free for public repos. A `.coderabbit.yaml` file gives it English reviews and project-specific instructions by path:
+CodeRabbit is free for public repos. A `.coderabbit.yaml` file gives it English reviews and project-specific instructions by path.
+
+**Reviews start by hand for now.** CodeRabbit is installed on the owner's account, so it sees every new repo, but it skips automatic reviews on open-source repos with fewer than 10 stars (seen on the first PR, 2026-11-25). So the owner asks for each review by commenting `@coderabbitai review` on the PR (implementation plan, section 3, step 15). Merging waits for that review too; GitHub doesn't enforce it, so the owner checks that it's there. Once the repo has 10 stars, check whether reviews start on their own; if they do, the step can be dropped.
+
+The instructions by path:
 
 | Path | What CodeRabbit is told to check |
 |---|---|

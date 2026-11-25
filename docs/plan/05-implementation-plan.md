@@ -21,7 +21,7 @@ These need your accounts, so only you can do them. None of them costs money.
 | GitHub repo `darsi` (public), push `main`, then the `main` ruleset (repo and workflow, sections 2 and 7) | The replanning PR and everything after it | Day 1 |
 | Vercel account, linked to the repo; functions region Frankfurt (`fra1`) | Hosting and PR previews | Day 1 |
 | Neon project in Frankfurt (`eu-central-1`), with Neon's Vercel integration | Database and preview branches | Day 1 |
-| CodeRabbit, installed on the repo | PR reviews | Day 1 |
+| ✅ CodeRabbit, installed on the repo (reviews start by hand for now, step 15) | PR reviews | Day 1 |
 | Clerk application (development instance) | Teacher sign-in | Day 3 |
 | A dedicated OpenRouter key for Darsi, with a credit limit (D-21, D-23) | The content-writing script | PR 14 |
 | Your son's Android phone with Chrome, available for short checks (D-43) | Early checks in PRs 3, 4 and 17, and the real-phone checklist | Day 2 |
@@ -38,7 +38,7 @@ Every day follows the same routine, usually twice: once per PR.
 | **You** | Choose what to build, make every decision, read every change, try it on a phone, and merge |
 | **The AI assistant** (Claude Code in VS Code) | Reads the plan, proposes how to build the PR, writes the code, tests and content drafts, runs the commands, drafts the PR description and fixes review comments. It asks before pushing, opening a PR, or running any paid AI call |
 | **CI** (GitHub Actions) | Runs every check and test on each push. Nothing merges unless it's green |
-| **CodeRabbit** | Reviews each PR and leaves comments |
+| **CodeRabbit** | Reviews each PR when you ask it to (step 15) and leaves comments |
 
 ### Start (about 10 minutes)
 
@@ -73,18 +73,18 @@ Every day follows the same routine, usually twice: once per PR.
 
 13. The assistant asks before pushing, then runs `git push -u origin <branch>`.
 14. It opens the PR with `gh pr create`: a conventional title, the template filled in, "Closes #<issue>", and phone screenshots (synthetic data only) for UI changes. You check the description before it's sent.
-15. Wait about 10 minutes for three things: CI, the Vercel preview link, and CodeRabbit's review.
+15. Ask CodeRabbit for its review: comment `@coderabbitai review` on the PR. It doesn't review this repo on its own yet (repo and workflow, section 10). Then wait about 10 minutes for three things: CI, the Vercel preview link, and CodeRabbit's review.
 
 ### Review (20–40 minutes)
 
 16. Open the preview link **on a real phone** and try the feature. For offline changes, also try airplane mode.
-17. Go through CodeRabbit's comments one by one. For each, either ask the assistant to fix it or reply with the reason it's fine as it is, then resolve the conversation. Pushing a fix runs CI again.
+17. Go through CodeRabbit's comments one by one. For each, either ask the assistant to fix it or reply with the reason it's fine as it is, then resolve the conversation. Pushing a fix runs CI again; comment `@coderabbitai review` again if the fix is large enough to need a fresh review.
 18. Read the "Files changed" tab once more, as if you were reviewing a colleague's work.
 
 ### Merge (about 5 minutes)
 
-19. When CI is green and every conversation is resolved, click **Squash and merge**, and check that the commit title is the PR title.
-    - There's **no "Approve" step**: GitHub doesn't let you approve your own PR, so green CI and resolved conversations are the gate.
+19. When CI is green, CodeRabbit has posted its review, and every conversation is resolved, click **Squash and merge**, and check that the commit title is the PR title.
+    - There's **no "Approve" step**: GitHub doesn't let you approve your own PR, so green CI, CodeRabbit's review and resolved conversations are the gate. GitHub doesn't enforce the review itself, so check that it's there.
 20. Merging deploys the private Stage A deployment automatically, and "Closes #…" closes the issue. Check that the deployment succeeded.
 21. If the plan marks a tag after this PR, run `gh release create <version> --generate-notes`.
 
