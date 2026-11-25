@@ -141,7 +141,7 @@ The routine around the code takes about an hour per PR; the effort estimates ass
 | # | PR | What's in it | Tests and checks | Effort |
 |---|---|---|---|---|
 | 12 | `feat(practice): add feedback, hints and worked solutions` | The `feedback` module: misconception messages, a second try, two hint levels, the worked solution after two wrong tries (D-35); unmatched wrong answers are marked (D-29) | Unit tests for `feedback`; E2E journey 4 continued | 1.0 |
-| 13 | `feat(sync): add attempts, sync and the server's re-check` | `Attempt` with its constraints and the `UPDATE` trigger; `POST /api/sync` with push and pull; the session, origin and ownership checks; the re-check and flags; the queue flushed on success; a `401` keeps the queue. **ADR 015** | Integration tests for no duplicates, the re-check, sessions and pull; the trigger test; the isolation guard covers the handler | 1.5 |
+| 13 | `feat(sync): add attempts, sync and the server's re-check` | `Attempt` with its constraints and the `UPDATE` trigger; `POST /api/sync` with push and pull; the session, origin and ownership checks; the re-check and flags; the queue flushed on success; a `401` keeps the queue; the class-list check that removes deleted students from the phone (D-50). **ADR 015** | Integration tests for no duplicates, the re-check, sessions and pull; the trigger test; the isolation guard covers the handler | 1.5 |
 
 ### Days 12–14 — The AI script and content
 

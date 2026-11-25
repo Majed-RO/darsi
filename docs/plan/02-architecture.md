@@ -253,11 +253,11 @@ erDiagram
 5. The phone removes the stored IDs from the queue and saves the attempts it received. The sync state on screen updates.
 6. **If the queue still has attempts, the phone sends the next batch at once,** repeating until the queue is empty. If a batch fails (no connection, a server error), the attempts not yet stored stay in the queue for the next sync.
 
-A `401` (expired or revoked session) keeps the queue and asks the student to sign in again.
+A `401` (expired or revoked session, or a deleted student) keeps the queue and opens the sign-in screen. There, the class-list check removes a deleted student (D-50); a student who still exists signs in again, and the queue is sent.
 
 **Switching student.** The current student is signed out (on the server too, when online). That student's queue stays on the phone and is sent the next time that student signs in with a connection (D-38). The sign-in screen shows each student's waiting count. The app never shows one student's progress to another.
 
-**Deleting a student.** One transaction deletes the student's attempts, sessions and the student. A phone that still has the student's queue gets "not found" on sync and clears it.
+**Deleting a student.** One transaction deletes the student's attempts, sessions and the student. The phone learns it from the class list (D-50): it remembers each stored student's class code, and whenever the sign-in screen opens with a connection, it fetches the class's names and removes every stored student who isn't on the list (the queue, the attempts and the app lock's PIN hash). A class code that no longer exists removes all of that class's students. This also reaches a switched-out student, who never syncs. If the deleted student was the current one, the next sync gets `401` and leads to the sign-in screen, where the check runs. A phone that never connects again keeps the data, and the delete screen says so.
 
 ## 7. AI for writing content (D-29, D-30)
 

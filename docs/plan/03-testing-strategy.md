@@ -65,7 +65,7 @@ With `fake-indexeddb`:
 - A queue larger than one batch is sent in several batches in one sync, until it's empty. If a later batch fails, the attempts not yet stored stay in the queue.
 - The pull cursor is the latest `receivedAt` the phone has from the server, and attempts received twice (from the overlap window) are saved once.
 - Switching student keeps the first student's queue, and the second student's view never includes it.
-- A "not found" student on sync clears that student's queue.
+- A stored student missing from the class list is removed from the phone (queue, attempts and PIN hash), and the other students stay. A class code that no longer exists removes all of that class's students. A `401` alone never clears a queue (D-50).
 
 ### AI script
 
@@ -103,7 +103,7 @@ With `fake-indexeddb`:
 | **Sync: sessions** | No session, an expired session or a revoked session gets `401` and stores nothing. A request from another origin is refused |
 | Sessions | Only the token's hash is stored; a PIN reset revokes sessions and makes the PIN temporary again |
 | **Choosing a PIN (D-45)** | Signing in with a temporary PIN creates no session until a new PIN is chosen; a new PIN equal to the temporary one is refused; after it's chosen, the temporary PIN no longer works; no use case returns a student's PIN or its hash to a teacher |
-| **Deleting a student** | Removes the student's attempts and sessions in one transaction; a later sync for that student gets "not found" |
+| **Deleting a student** | Removes the student's attempts and sessions in one transaction; a later sync with that student's cookie gets `401`, and the class's list no longer includes the student |
 
 ## 5. End-to-end tests (Playwright)
 
@@ -126,7 +126,7 @@ With `fake-indexeddb`:
 | 4 | **Practice and feedback:** a wrong answer shows its misconception message and allows another try; hints on request; the worked solution after two wrong tries; the progress screen updates; a skill reaches mastery |
 | 5 | **Offline (never cut):** sign in; go offline; reload the practice app and it still opens; practise a full session; the waiting count shows; close and reopen the page; go back online; the answers sync once (the server's count equals the number of answers); a second sync adds nothing |
 | 6 | **Switching student:** with answers waiting, switch student; the sign-in screen shows the waiting count; the second student never sees the first one's progress; the first student signs in again and the answers sync |
-| 7 | **Deleting a student:** the teacher deletes the student; the data is gone, and the phone's queue for that student is cleared on the next sync |
+| 7 | **Deleting a student:** with answers waiting for two students on one phone, the teacher deletes both: one is the current student, the other was switched out. The server's data is gone. The current student's next sync leads to the sign-in screen, and once it opens with a connection, neither student nor their answers remain on the phone (D-50) |
 | 8 | **Isolation smoke test:** teacher B opening teacher A's class URL gets a not-found page |
 | 9 | **Content update:** after a new content version is deployed, the app picks it up on the next online opening, and new attempts carry the new version |
 | 10 | **App lock (D-45):** reopening Darsi asks for the PIN, online and offline; 10 minutes without use locks it (with a simulated clock); 5 wrong PINs lock it for 15 minutes; "Switch student" works from the lock screen |

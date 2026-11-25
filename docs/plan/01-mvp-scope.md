@@ -41,7 +41,7 @@ There's no admin area in Stage A: there are no payments, trials or subscriptions
 - The first sign-in creates the teacher's workspace (D-13).
 - Create a class with a name and a grade (1–12) and its join code from an alphabet without look-alike characters. Add one subject to it, linked to a subject and grade in the core content: in Stage A, math for grade 7, with its one unit (D-22, D-38).
 - Add students by first name (unique within the class). Darsi generates a **one-time temporary 4-digit PIN** for each one and shows it once; only its hash is stored. The student replaces it with his own PIN at the first sign-in, so the teacher never knows the real one (D-45). Resetting gives a new temporary PIN the same way.
-- **Delete a student completely:** the student, the sessions and every attempt (D-37, D-40).
+- **Delete a student completely:** the student, the sessions and every attempt (D-37, D-40). The phone removes that student's data the next time its sign-in screen opens with a connection (D-50).
 - No other teacher pages in Stage A.
 
 ### 2. Student sign-in (D-10, D-38)
