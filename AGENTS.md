@@ -37,9 +37,9 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 | 5. Repo setup, CI, PR and commit conventions | ✅ Approved (Stage A revision) |
 | 6. Implementation plan | ✅ Approved (Stage A) |
 
-**Git:** the public GitHub repo `darsi` exists (2026-11-25), with `main` pushed, squash-only merges and the `main` ruleset on (repo and workflow, section 7; required status checks come after the CI PR). The Stage A revision is the first PR, `docs: replan for Stage A`, from `docs/replan-stage-a`.
+**Git:** the public GitHub repo `darsi` exists (2026-11-25), with `main` pushed, squash-only merges and the `main` ruleset on (repo and workflow, section 7; required status checks come after the CI PR). The Stage A revision is the first PR, `docs: replan for Stage A`, from `docs/replan-stage-a`. CodeRabbit's two reviews of it led to D-47 to D-51 and fixes in the step documents. CodeRabbit skips automatic reviews while the repo has fewer than 10 stars, so each review is requested by hand (D-47); the free plan allows about one review an hour.
 
-**Next action:** CodeRabbit's first review of the replanning PR (9 comments) is addressed: 6 fixes and D-48 to D-51. The owner posts the drafted replies and resolves each conversation, asks for a fresh review with `@coderabbitai review` (CodeRabbit skips automatic reviews while the repo has fewer than 10 stars, repo and workflow, section 10; the free plan allows about one review an hour), resolves any new comments, then merges. The rest of the setup in section 2 of `docs/plan/05-implementation-plan.md` (Vercel, Neon) is also needed before **Day 1**, which starts with PR 1.
+**Next action:** once the replanning PR has merged, the owner finishes the setup in section 2 of `docs/plan/05-implementation-plan.md`: Vercel, and **two** Neon projects, `darsi-prod` and `darsi-preview`, with only `darsi-preview` linked to Vercel (D-49). Then **Day 1** starts with PR 1, `chore: bootstrap the Next.js app and tooling`. Its `.coderabbit.yaml` should limit CodeRabbit's comments on `docs/**` to contradictions, privacy and security, because review rounds on prose take long.
 
 ## Working agreement
 
