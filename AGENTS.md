@@ -62,7 +62,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 - **No real student data,** except family testing with the owner's own child under the D-40 rules: first name only; the data stays in Darsi's database and on the student's phone for offline practice (D-36, D-48), never in the repo, logs, screenshots or AI prompts; a private deployment; teacher sign-up restricted to the owner; complete deletion possible, on the phone too (D-50).
 - **AI and students (D-30):** nothing that identifies a student is ever sent to an AI (D-08a); a person reviews every piece of stored AI-written content before students see it (D-08b); students don't interact with AI at runtime (D-08c). Anonymous, aggregated wrong-answer patterns may be sent while writing content only when they come from more than one student.
 - **AI runs cost money.** In Stage A, AI is used only by the content-writing script (D-29). The owner chooses the model after a small trial; **ask before running any paid AI call.** Candidates: Claude Opus 5.5, Sonnet 5.5 and Haiku 5.5, called **through OpenRouter** by their OpenRouter model IDs (D-23).
-- **Team practices:** one PR per feature, conventional commits, CI (lint, typecheck, tests) on every PR, review by CodeRabbit.
+- **Team practices:** one PR per feature, conventional commits, CI (lint, typecheck, tests) on every PR from PR 2 on (the replanning PR and PR 1 come before CI exists), review by CodeRabbit.
 - **No AI `Co-Authored-By` trailer** in commits or squash-merge messages, as the owner decided. AI assistance is disclosed once, in the README's "How this was built" section ([repo and workflow, sections 8 and 14](docs/plan/04-repo-and-workflow.md)).
 
 ## Product essentials

@@ -138,7 +138,7 @@ Examples:
 
 ## 9. CI and deployments
 
-**On every PR** (GitHub Actions), all required before merging:
+**On every PR from PR 2 on** (GitHub Actions), all required before merging. The two PRs before CI exists follow the exception in section 1, goal 2:
 
 | Job | What it runs |
 |---|---|
@@ -209,7 +209,7 @@ The owner reads every comment, then fixes it or replies with the reason, and res
 4. Testing: the layers, how to run them, and the CI badge
 5. Running locally: prerequisites, `docker compose up`, `pnpm install`, migrate, seed, `pnpm dev`
 6. Project practices: PRs, conventional commits, CodeRabbit, ADRs
-7. **How this was built:** the owner planned the product and made the decisions (the PLAN.md decisions log and the ADRs); an AI assistant was used as a pair programmer under the owner's direction; every change went through tests, CI, CodeRabbit and the owner's review
+7. **How this was built:** the owner planned the product and made the decisions (the PLAN.md decisions log and the ADRs); an AI assistant was used as a pair programmer under the owner's direction; every change went through CodeRabbit and the owner's review, and every change from PR 2 on also went through tests and CI (the two earlier PRs came before CI existed)
 8. License: FSL-1.1-ALv2 for the code, and what it allows; the content in `content/` is all rights reserved (D-39)
 
 There's no public demo in Stage A (D-40). A demo section comes back with the public demo (D-20).
