@@ -17,8 +17,8 @@
 2. ✅ **Local git identity for this repo:** the owner's GitHub name and GitHub's no-reply email, so the owner's real name and email never appear in commits (D-42). On GitHub, "Keep my email addresses private" and "Block command line pushes that expose my email" are on.
 3. ✅ **First commit on `main`:** `.gitignore`, `LICENSE` (FSL-1.1-ALv2, D-17), a short `README.md`, `CLAUDE.md` and `docs/`, as approved on 2026-11-22. This is the only commit made directly on `main`.
 4. ✅ **The replanning branch** `docs/replan-stage-a` holds the Stage A revision of the plan, one commit per document.
-5. **Create the public GitHub repo** `darsi`, push `main`, then turn on the `main` rules (section 7). Required status checks are added once the CI PR has merged, because the checks don't exist before it.
-6. **First PR:** push `docs/replan-stage-a` and open it as `docs: replan for Stage A`.
+5. ✅ **Create the public GitHub repo** `darsi`, push `main`, then turn on the `main` rules (section 7). Required status checks are added once the CI PR has merged, because the checks don't exist before it.
+6. ✅ **First PR:** push `docs/replan-stage-a` and open it as `docs: replan for Stage A`.
 7. **Bootstrap PRs:** the app skeleton and tooling (section 5), then CI (section 9) with the test infrastructure (testing strategy, section 4), PR template, CodeRabbit config, `SECURITY.md` and ADR 001.
 
 ## 3. Keeping private things private

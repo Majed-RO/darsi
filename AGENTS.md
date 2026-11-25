@@ -24,7 +24,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 
 **If a step document ever conflicts with a PLAN.md decision, the decision wins. Report the conflict to the owner instead of choosing silently.**
 
-## Current status (2026-11-23)
+## Current status (2026-11-25)
 
 **The Stage A plan was approved on 2026-11-23 (all six steps). No code has been written yet.**
 
@@ -37,9 +37,9 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 | 5. Repo setup, CI, PR and commit conventions | ✅ Approved (Stage A revision) |
 | 6. Implementation plan | ✅ Approved (Stage A) |
 
-**Git:** `main` holds one local commit (the plan as approved on 2026-11-22, `LICENSE`, `README.md`). The revision happens on the local branch `docs/replan-stage-a`, one commit per document, and becomes the first PR once the GitHub repo exists.
+**Git:** the public GitHub repo `darsi` exists (2026-11-25), with `main` pushed, squash-only merges and the `main` ruleset on (repo and workflow, section 7; required status checks come after the CI PR). The Stage A revision is the first PR, `docs: replan for Stage A`, from `docs/replan-stage-a`.
 
-**Next action:** the owner finishes the setup in section 2 of `docs/plan/05-implementation-plan.md`, creates the GitHub repo, pushes `main` and opens the replanning PR from `docs/replan-stage-a` (repo and workflow, section 2). After it merges, **Day 1** starts with PR 1.
+**Next action:** the owner installs CodeRabbit, which reviews the replanning PR, then merges it. The rest of the setup in section 2 of `docs/plan/05-implementation-plan.md` (Vercel, Neon) is also needed before **Day 1**, which starts with PR 1.
 
 ## Working agreement
 
