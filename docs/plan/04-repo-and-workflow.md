@@ -153,7 +153,7 @@ Examples:
 Jobs run in parallel, with pnpm and Playwright browser caching, targeting under about 10 minutes.
 
 **Alongside CI:**
-- **Vercel** builds a preview deployment for each PR, with its own Neon database branch seeded with synthetic data. Previews never use the Stage A database.
+- **Vercel** builds a preview deployment for each PR, with its own Neon database branch in the `darsi-preview` project, copied from that project's synthetic-only default branch. Production lives in a separate Neon project, `darsi-prod`, that previews can't branch from (D-49).
 - **CodeRabbit** reviews the PR (section 10).
 
 **Migrations:** the Vercel build runs `prisma migrate deploy` before `next build`. A failing migration fails the deployment. From Stage A on, the production database holds the family test's data, so migrations must be backward compatible: add first, remove in a later PR.

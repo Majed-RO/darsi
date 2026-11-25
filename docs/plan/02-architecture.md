@@ -25,7 +25,7 @@
 | Student sync | **One Route Handler**, `POST /api/sync` (D-36) | A cached offline copy of the app keeps old Server Action IDs after a deploy; a stable URL with a versioned payload doesn't break |
 | Offline | A **service worker** and **IndexedDB**, behind small wrappers. The libraries (for example Serwist for the service worker and `idb` for IndexedDB) are chosen and recorded in the offline ADR | L1 offline (D-36) |
 | Database | **PostgreSQL** + **Prisma** | Relational data with strong constraints |
-| Database hosting | **Neon** (free tier in Stage A), in **Frankfurt** (`eu-central-1`) | Wakes automatically when idle; database branches for PR previews |
+| Database hosting | **Neon** (free tier in Stage A), in **Frankfurt** (`eu-central-1`), as two projects: production and previews (D-49) | Wakes automatically when idle; database branches for PR previews, made from synthetic data only |
 | Teacher login | **Clerk** (development instance in Stage A), plus an **app-level allowlist** of teacher emails (D-38, D-40) | Secure sign-in without building it. The allowlist guarantees that nobody else becomes a teacher, whatever the Clerk plan allows |
 | Student login | **Our own**: class code + first name + PIN, database sessions | Children have no email (section 6) |
 | AI | **Claude models through OpenRouter** (D-23), used **only by a local content-writing script** (D-29). Structured outputs, validated with Zod | Section 7 |
@@ -304,12 +304,12 @@ A `401` (expired or revoked session) keeps the queue and asks the student to sig
 |---|---|---|---|
 | Local | `next dev` (the service worker is tested with a production build) | Postgres in Docker | Only the content script, by hand |
 | CI | GitHub Actions | Postgres service container, migrated and seeded with synthetic data | None |
-| PR preview | Vercel preview deployment | A Neon database branch per preview, seeded with synthetic data; **never the Stage A database** | None |
-| Stage A | A private Vercel deployment (Hobby, non-commercial), Clerk development instance, teacher allowlist with the owner's email | Neon main branch, holding the family test's data (D-40) | None |
+| PR preview | Vercel preview deployment | A branch per preview in the Neon project **`darsi-preview`**, made by Neon's Vercel integration from that project's default branch, which holds synthetic seed data only. **A separate project from production, so a preview can never copy real data** (D-49) | None |
+| Stage A | A private Vercel deployment (Hobby, non-commercial), Clerk development instance, teacher allowlist with the owner's email | The Neon project **`darsi-prod`**, holding the family test's data (D-40). Not linked to the integration and no branches; Production's `DATABASE_URL` is set by hand | None |
 
 **Region:** Neon in Frankfurt (`eu-central-1`) and Vercel functions in `fra1`, so the app and the database sit in the same city.
 
-Migrations run in the Vercel build (`prisma migrate deploy`). From Stage A on, the database holds real data, so migrations must be backward compatible: add first, remove in a later PR.
+Migrations run in the Vercel build (`prisma migrate deploy`), so each preview branch catches up with its PR's schema, and production with `main`'s. From Stage A on, the database holds real data, so migrations must be backward compatible: add first, remove in a later PR.
 
 ## 12. Ready for Stage B, C and later
 

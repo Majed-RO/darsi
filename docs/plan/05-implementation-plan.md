@@ -20,7 +20,7 @@ These need your accounts, so only you can do them. None of them costs money.
 |---|---|---|
 | GitHub repo `darsi` (public), push `main`, then the `main` ruleset (repo and workflow, sections 2 and 7) | The replanning PR and everything after it | Day 1 |
 | Vercel account, linked to the repo; functions region Frankfurt (`fra1`) | Hosting and PR previews | Day 1 |
-| Neon project in Frankfurt (`eu-central-1`), with Neon's Vercel integration | Database and preview branches | Day 1 |
+| Two Neon projects in Frankfurt (`eu-central-1`): `darsi-prod` for the family test's data, not linked to Vercel; `darsi-preview`, linked to Vercel through Neon's integration for previews only (D-49) | Database and preview branches | Day 1 |
 | ✅ CodeRabbit, installed on the repo (reviews start by hand for now, step 15) | PR reviews | Day 1 |
 | Clerk application (development instance) | Teacher sign-in | Day 3 |
 | A dedicated OpenRouter key for Darsi, with a credit limit (D-21, D-23) | The content-writing script | PR 14 |
@@ -109,7 +109,7 @@ The routine around the code takes about an hour per PR; the effort estimates ass
 | # | PR | What's in it | Tests and checks | Effort |
 |---|---|---|---|---|
 | 1 | `chore: bootstrap the Next.js app and tooling` | Next.js 16, TypeScript strict, Tailwind v4, shadcn/ui, Prettier, ESLint with the project rules (repo and workflow, section 5), husky and lint-staged, `env.ts` and `.env.example`, Docker Compose Postgres, pinned Node and pnpm, PR and issue templates, `.coderabbit.yaml`, Dependabot, `SECURITY.md`. **ADR 001, 002, 012** | A small test proves each project lint rule fires | 0.5 |
-| 2 | `ci: add the CI pipeline, test setup and deployments` | Prisma, Vitest (unit and integration projects, a database per worker, factories, `fake-indexeddb`), Playwright (production build, Android phone profile, offline helper, axe helper), all CI jobs including the content checks, the coverage threshold, Vercel and Neon connected, migrations in the build. **ADR 003** | The pipeline itself; the first preview and production deploys of an empty app | 0.5 |
+| 2 | `ci: add the CI pipeline, test setup and deployments` | Prisma, Vitest (unit and integration projects, a database per worker, factories, `fake-indexeddb`), Playwright (production build, Android phone profile, offline helper, axe helper), all CI jobs including the content checks, the coverage threshold, Vercel and Neon connected (the integration on `darsi-preview` for Preview only; Production's `DATABASE_URL` to `darsi-prod` by hand, D-49), migrations in the build. **ADR 003** | The pipeline itself; the first preview and production deploys of an empty app; a check that previews connect to `darsi-preview` and its default branch holds seed data only | 0.5 |
 
 ### Day 2 — App shell and the offline spike
 
