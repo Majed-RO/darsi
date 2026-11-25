@@ -40,8 +40,8 @@ There's no admin area in Stage A: there are no payments, trials or subscriptions
 - Clerk sign-in. Sign-up is restricted to the owner's email; nobody else can create a teacher account.
 - The first sign-in creates the teacher's workspace (D-13).
 - Create a class with a name and a grade (1–12) and its join code from an alphabet without look-alike characters. Add one subject to it, linked to a subject and grade in the core content: in Stage A, math for grade 7, with its one unit (D-22, D-38).
-- Add students by first name (unique within the class). Darsi generates a **one-time temporary 4-digit PIN** for each one and shows it once; only its hash is stored. The student replaces it with his own PIN at the first sign-in, and Darsi never shows or tells the teacher the real one (D-45). Resetting gives a new temporary PIN the same way. **Limit, at enrollment and after a reset (D-51):** a teacher who used the temporary PIN first would choose, and so know, the real PIN; the student then sees that the temporary PIN was already replaced.
-- **Delete a student completely:** the student, the sessions and every attempt (D-37, D-40). The phone removes that student's data the next time its sign-in screen opens with a connection (D-50).
+- Add students by first name (unique within the class). Darsi generates a **one-time temporary 4-digit PIN** for each one and shows it once; only its hash is stored. The student replaces it with his own PIN at the first sign-in, and Darsi never shows or tells the teacher the real one (D-45). Resetting gives a new temporary PIN the same way. **Limit, at enrollment and after a reset (D-51):** a teacher who used the temporary PIN first would choose, and so know, the real PIN. The student finds out when he types the temporary PIN: instead of being asked to choose a PIN, he sees that it was already replaced (sign-in step 4).
+- **Delete a student completely:** the student, the sessions and every attempt (D-37, D-40). The phone removes that student's data the next time Darsi is open on it with a connection: when it opens online, when the connection returns, or when the sign-in screen opens (D-50). The delete screen also reminds the owner to delete any evaluation report files in `private/` (D-48).
 - No other teacher pages in Stage A.
 
 ### 2. Student sign-in (D-10, D-38)
@@ -145,7 +145,7 @@ There's no admin area in Stage A: there are no payments, trials or subscriptions
 ### 10. Privacy and data (D-30, D-40)
 
 - First names only. No birth date, school or phone number.
-- Student data stays in Darsi's own storage: the database, and the student's phone for offline practice and sync (D-36). It never goes into the repo, logs, screenshots or any AI prompt (D-48).
+- Student data stays in Darsi's own storage: the database, and the student's phone for offline practice and sync (D-36). The one exception is the evaluation report in `private/` on the owner's computer (section 12): aggregates only, no first name and no individual answers. It never goes into the repo, logs, screenshots or any AI prompt (D-48).
 - No student data is sent to any AI; students don't interact with AI.
 - A private deployment. Seed and test data are synthetic, written from scratch in Arabic.
 
@@ -159,7 +159,7 @@ There's no admin area in Stage A: there are no payments, trials or subscriptions
 
 ### 12. Data for the evaluation
 
-A local script summarizes the family test from the database: sessions, attempts, mastery over time, hint use, wrong answers with no matching misconception, server mismatches, and sync statistics. Its output stays in `private/`.
+A local script summarizes the family test from the database: sessions, attempts, mastery over time, hint use, wrong answers with no matching misconception, server mismatches, and sync statistics. Its output stays in `private/`, never committed, with aggregates only: no first name and no individual answers (D-48). Deleting the student includes deleting these files by hand.
 
 ---
 

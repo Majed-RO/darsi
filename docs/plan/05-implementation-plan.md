@@ -175,7 +175,7 @@ The routine around the code takes about an hour per PR; the effort estimates ass
 
 | # | PR | What's in it | Tests and checks | Effort |
 |---|---|---|---|---|
-| 18 | `feat(report): add the family test's evaluation script` | `scripts/report/`: sessions, attempts, mastery over time, hint use, unmatched wrong answers, server mismatches and sync statistics, written to `private/` | Unit tests for its calculations on synthetic data | 0.5 |
+| 18 | `feat(report): add the family test's evaluation script` | `scripts/report/`: sessions, attempts, mastery over time, hint use, unmatched wrong answers, server mismatches and sync statistics, written to `private/` as aggregates only, with no first name and no individual answers (D-48) | Unit tests for its calculations on synthetic data; a test that the output contains no first name and no answer text | 0.5 |
 | 19 | `docs: write the README and run the readiness checks` | The README from the outline (repo and workflow, section 14), including "How this was built"; known limitations; the readiness checklist (section 7) | The real-phone checklist again; Lighthouse on the practice app; the cold-start time of the database | 1.0 |
 
 ## 5. Total, buffer and cut line
@@ -232,6 +232,6 @@ The build is done, and the family test can start, when every item of the scope's
 ## 8. After the build
 
 1. **The family test:** two weeks, at least four practice sessions, with help requests noted (scope, "Success criteria").
-2. **The evaluation:** run the evaluation script; write a short results note in `private/`, with the limits of a sample of one.
+2. **The evaluation:** run the evaluation script; write a short results note in `private/`, with the limits of a sample of one. Like the report, it holds no first name and no individual answers (D-48).
 3. **The decision:** you decide whether to start Stage B, and what to change first. It's recorded as a new D-number in PLAN.md.
 4. **Later:** the Stage C prerequisites and the move to a private repo are listed in [PLAN.md](../PLAN.md#future-features) and the [runbook](../runbooks/stage-c-move-to-private-repo.md).
