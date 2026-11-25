@@ -13,7 +13,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 
 ## Start here
 
-1. [docs/PLAN.md](docs/PLAN.md): background, stages, **decisions log (D-01 to D-50)** with the current status of D-01 to D-23, open questions, facts to verify, future features, planning status.
+1. [docs/PLAN.md](docs/PLAN.md): background, stages, **decisions log (D-01 to D-51)** with the current status of D-01 to D-23, open questions, facts to verify, future features, planning status.
 2. [docs/plan/01-mvp-scope.md](docs/plan/01-mvp-scope.md): the **approved** Stage A scope (v4).
 3. [docs/plan/02-architecture.md](docs/plan/02-architecture.md): the **approved** architecture and data model (v3).
 4. [docs/plan/03-testing-strategy.md](docs/plan/03-testing-strategy.md): the **approved** testing strategy.
@@ -30,7 +30,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 
 | Step | Status |
 |---|---|
-| 1. Project idea and strategy (PLAN.md) | ✅ Revised (D-24 to D-50) |
+| 1. Project idea and strategy (PLAN.md) | ✅ Revised (D-24 to D-51) |
 | 2. Scope (Stage A) | ✅ Approved (v4) |
 | 3. Architecture and data model | ✅ Approved (v3) |
 | 4. Testing strategy | ✅ Approved (Stage A revision) |
@@ -39,7 +39,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 
 **Git:** the public GitHub repo `darsi` exists (2026-11-25), with `main` pushed, squash-only merges and the `main` ruleset on (repo and workflow, section 7; required status checks come after the CI PR). The Stage A revision is the first PR, `docs: replan for Stage A`, from `docs/replan-stage-a`.
 
-**Next action:** CodeRabbit is installed but skips automatic reviews while the repo has fewer than 10 stars, so the owner asks for its review of the replanning PR by commenting `@coderabbitai review` (repo and workflow, section 10), resolves its comments, then merges. The rest of the setup in section 2 of `docs/plan/05-implementation-plan.md` (Vercel, Neon) is also needed before **Day 1**, which starts with PR 1.
+**Next action:** CodeRabbit's first review of the replanning PR (9 comments) is addressed: 6 fixes and D-48 to D-51. The owner posts the drafted replies and resolves each conversation, asks for a fresh review with `@coderabbitai review` (CodeRabbit skips automatic reviews while the repo has fewer than 10 stars, repo and workflow, section 10; the free plan allows about one review an hour), resolves any new comments, then merges. The rest of the setup in section 2 of `docs/plan/05-implementation-plan.md` (Vercel, Neon) is also needed before **Day 1**, which starts with PR 1.
 
 ## Working agreement
 
@@ -47,7 +47,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 - **Discussion with the owner is in Arabic**, with technical terms in English where clearer. **Every file is written in English.** The product UI is Arabic.
 - **Be direct.** If an idea, scope or timeline seems unrealistic, say so and explain the cost.
 - When the owner asks to discuss questions one by one, present one question with options and a recommendation, then wait.
-- **Record every decision** in the PLAN.md decisions log (the next number is **D-51**), with its state (APPROVED, PROPOSED or OPEN), and keep its planning status table current. Never rewrite an older decision: record its new status in "Current status of D-01 to D-23" or in a new decision. Step details go in `docs/plan/`. During implementation, technical decisions become ADRs in `docs/adr/`.
+- **Record every decision** in the PLAN.md decisions log (the next number is **D-52**), with its state (APPROVED, PROPOSED or OPEN), and keep its planning status table current. Never rewrite an older decision: record its new status in "Current status of D-01 to D-23" or in a new decision. Step details go in `docs/plan/`. During implementation, technical decisions become ADRs in `docs/adr/`.
 - **The owner must see every code change:** edit code with the editor's edit tools, never with shell scripts, so each change appears as a diff in VS Code. Files that tools write themselves (scaffolding, lockfiles, generated migrations) are reviewed in the Source Control view instead.
 - **The plan's days are focused days of work, not consecutive calendar days;** the owner sometimes pauses. During implementation, every PR updates "Current status" as its last commit (what it completes and the next PR), so the status reaches `main` with the merge and work resumes cleanly after a pause.
 - **The whole Stage A plan was approved on 2026-11-23.** Build in the order of `docs/plan/05-implementation-plan.md`, following its daily routine (section 3).
@@ -58,7 +58,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 - **Commits use this repo's local git identity** (the owner's GitHub name and GitHub's no-reply email). Don't change it, and don't commit with another identity: the owner's real name and email stay out of the public repo (D-42).
 - **License:** the code is public under **FSL-1.1-ALv2** (`LICENSE`, D-17). The content folder gets its own license file, **all rights reserved** (D-39).
 - **All content is written from scratch.** No Ministry or UNRWA text, examples, exercises or images in the repo. UNRWA's cards are used only for objectives and their order, and are never sent to an AI (D-09, D-26).
-- **Only the student opens the student's own space** (D-45). Teachers and guardians see progress only from their own dashboards; they get a one-time temporary PIN, the student chooses the real one, and the app asks for it on every opening and after 10 minutes without use. Never add a way for an adult to sign in as a student.
+- **Only the student opens the student's own space** (D-45). Teachers and guardians see progress only from their own dashboards; they get a one-time temporary PIN, the student chooses the real one, and the app asks for it on every opening and after 10 minutes without use. Never add a way for an adult to sign in as a student. The temporary PIN is a one-time handover, not a way in; if it's typed after being replaced, the student is told (D-51).
 - **No real student data,** except family testing with the owner's own child under the D-40 rules: first name only; the data stays in Darsi's database and on the student's phone for offline practice (D-36, D-48), never in the repo, logs, screenshots or AI prompts; a private deployment; teacher sign-up restricted to the owner; complete deletion possible, on the phone too (D-50).
 - **AI and students (D-30):** nothing that identifies a student is ever sent to an AI (D-08a); a person reviews every piece of stored AI-written content before students see it (D-08b); students don't interact with AI at runtime (D-08c). Anonymous, aggregated wrong-answer patterns may be sent while writing content only when they come from more than one student.
 - **AI runs cost money.** In Stage A, AI is used only by the content-writing script (D-29). The owner chooses the model after a small trial; **ask before running any paid AI call.** Candidates: Claude Opus 5.5, Sonnet 5.5 and Haiku 5.5, called **through OpenRouter** by their OpenRouter model IDs (D-23).
@@ -67,7 +67,7 @@ Darsi is supplemental: no official grades, and no replacement for official asses
 
 ## Product essentials
 
-Details are in PLAN.md (D-24 to D-50) and the Stage A scope document.
+Details are in PLAN.md (D-24 to D-51) and the Stage A scope document.
 
 - **Stages (D-28, D-44):** A, the student prototype tested in the family; B, the supervised prototype for both teachers and guardians, on test accounts and synthetic data; C, a pilot beyond the family, which needs the Stage C prerequisites first. Other ideas are on the "Later" list.
 - **First unit (D-27):** integers, from the UNRWA grade 7 cards, in this order: number line and opposites → comparing and ordering → absolute value → addition → subtraction.

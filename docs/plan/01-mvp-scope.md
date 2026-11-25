@@ -49,7 +49,7 @@ There's no admin area in Stage A: there are no payments, trials or subscriptions
 1. Enter the class code.
 2. Pick a first name from the class list.
 3. Enter the PIN on Darsi's keypad.
-4. **First sign-in only:** choose a new 4-digit PIN, different from the temporary one, and type it twice. Nobody else sees it (D-45).
+4. **First sign-in only:** choose a new 4-digit PIN, different from the temporary one, and type it twice. Nobody else sees it (D-45). If the temporary PIN was already replaced, the student sees "This temporary PIN has already been replaced. If you didn't choose a new PIN yourself, tell your teacher" (D-51).
 
 - After **5 wrong PINs**, that student is locked out for **15 minutes**. The 4-digit PIN's weakness is accepted for Stages A and B and reviewed before Stage C.
 - **App lock (D-45):** Darsi asks for the student's PIN every time it's opened and after **10 minutes** without use (configurable). It's checked on the phone, so it works offline; 5 wrong PINs lock it for 15 minutes. "Switch student" is available from the lock screen.

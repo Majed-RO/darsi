@@ -102,7 +102,7 @@ With `fake-indexeddb`:
 | **Sync: pull** | The answer includes the student's attempts the phone doesn't have yet, and only that student's. **Late upload:** phone A pulls an attempt; phone B then uploads an attempt with an earlier `answeredAt`; phone A's next pull receives it |
 | **Sync: sessions** | No session, an expired session or a revoked session gets `401` and stores nothing. A request from another origin is refused |
 | Sessions | Only the token's hash is stored; a PIN reset revokes sessions and makes the PIN temporary again |
-| **Choosing a PIN (D-45)** | Signing in with a temporary PIN creates no session until a new PIN is chosen; a new PIN equal to the temporary one is refused; after it's chosen, the temporary PIN no longer works; no use case returns a student's PIN or its hash to a teacher |
+| **Choosing a PIN (D-45)** | Signing in with a temporary PIN creates no session until a new PIN is chosen; a new PIN equal to the temporary one is refused; after it's chosen, the temporary PIN no longer works, and typing it shows the "already replaced" message without counting as a wrong PIN; a reset clears that, so the old temporary PIN is then just wrong (D-51); no use case returns a student's PIN or its hash to a teacher |
 | **Deleting a student** | Removes the student's attempts and sessions in one transaction; a later sync with that student's cookie gets `401`, and the class's list no longer includes the student |
 
 ## 5. End-to-end tests (Playwright)

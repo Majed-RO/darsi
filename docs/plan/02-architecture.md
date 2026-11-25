@@ -171,6 +171,7 @@ erDiagram
     string displayName "first name only"
     string pinHash
     bool pinIsTemporary "true until the student chooses a PIN"
+    string replacedTempPinHash "nullable: the replaced temporary PIN, D-51"
     int failedPinAttempts
     datetime lockedUntil "nullable"
   }
@@ -215,7 +216,7 @@ erDiagram
 | `Membership` | `workspaceId`, `userId`, `role` | Unique per workspace and user. Stage A has only `OWNER` (D-13) |
 | `Class` | `workspaceId`, `name`, `grade` (1–12), `joinCode` (unique) | A group of children (D-22) |
 | `Subject` | `classId`, `teacherId`, `contentSubject`, `contentGrade`, `position` | One subject taught to a class, pointing to a subject and grade folder in `content/`. Unique per class and content subject |
-| `Student` | `classId`, `displayName`, `pinHash`, `pinIsTemporary`, `failedPinAttempts`, `lockedUntil` | Unique per class and name. First name only (D-40). The teacher only ever sees a temporary PIN; the student's own PIN is never shown or stored in plain text (D-45) |
+| `Student` | `classId`, `displayName`, `pinHash`, `pinIsTemporary`, `replacedTempPinHash`, `failedPinAttempts`, `lockedUntil` | Unique per class and name. First name only (D-40). The teacher only ever sees a temporary PIN; the student's own PIN is never shown or stored in plain text (D-45) |
 | `StudentSession` | `studentId`, `tokenHash` (unique), `expiresAt`, `revokedAt` | The cookie's token is looked up by its hash. Revoked when the teacher resets the PIN |
 | `Attempt` | see the diagram | **One record per answer** (each try), never changed (D-37). The phone makes its ID, so a repeated sync inserts it once (`ON CONFLICT DO NOTHING`). A database trigger rejects every `UPDATE`. Mastery counts only `tryNumber = 1` and `hintsBefore = 0`. Indexed by student, skill and time |
 
@@ -233,7 +234,7 @@ erDiagram
 **Student sign-in** (online only).
 1. The student enters the class code; the server shows the class's first names.
 2. The student picks a name and enters the PIN on Darsi's keypad; `pin` decides whether the student is locked out.
-3. The server checks the PIN hash. **If the PIN is temporary,** the student must choose a new PIN (typed twice, different from the temporary one) before anything else; the server stores its hash and clears `pinIsTemporary` (D-45).
+3. The server checks the PIN hash. **If the PIN is temporary,** the student must choose a new PIN (typed twice, different from the temporary one) before anything else; the server stores its hash, keeps the temporary PIN's hash as `replacedTempPinHash`, and clears `pinIsTemporary` (D-45).
 4. The server creates a `StudentSession` and sets a secure HTTP-only cookie with a random token (only its hash is stored).
 5. The page stores the current student (ID, first name, class, subject) in IndexedDB, with a **salted, slow hash of the PIN** for the app lock, and opens the practice app.
 
@@ -273,7 +274,7 @@ A `401` (expired or revoked session, or a deleted student) keeps the queue and o
 |---|---|
 | Teacher | Clerk session **plus** the email allowlist in server configuration (D-38, D-40) |
 | Students | Random session token in an HTTP-only, Secure, SameSite cookie; only its hash is stored; revoked on PIN reset |
-| Who knows a PIN | Only the student: teachers and guardians get a one-time temporary PIN, and the student chooses the real one. No feature lets an adult sign in as a student (D-45) |
+| Who knows a PIN | Only the student: teachers and guardians get a one-time temporary PIN, and the student chooses the real one. No feature lets an adult sign in as a student (D-45). **Accepted limit (D-51):** whoever holds the temporary PIN could use it before the student. It's made visible: a replaced temporary PIN typed again shows the student "already replaced; tell your teacher if it wasn't you", without counting as a wrong PIN. A reset clears `replacedTempPinHash`. Reviewed before Stage C |
 | App lock | Asks for the PIN on every opening and after 10 minutes without use, checked against a salted, slow hash on the phone. It stops casual access on a shared phone; someone technical with the phone in hand could still read the phone's storage (see "Data on a shared phone") |
 | PINs | Hashed, with 5 tries every 15 minutes. **A 4-digit PIN is weak:** across a class of 30 a guess on some student succeeds in under a day, and anyone with the class code can lock students out. Accepted for Stages A and B (a secret class code, one child, synthetic data); reviewed before Stage C (D-38) |
 | Sync endpoint | Session required; the request's origin must be Darsi's; attempts must belong to the signed-in student; strict Zod validation; a maximum batch size and body size |
