@@ -1,6 +1,6 @@
 # Darsi (دَرْسي)
 
-An Arabic, mobile-first math learning and practice platform for students in Palestine.
+An Arabic, mobile-first learning and practice platform for students in Palestine. It starts with math in grade 7 and is meant to cover more subjects and grades.
 
 > **Status:** planning. Implementation hasn't started yet.
 
