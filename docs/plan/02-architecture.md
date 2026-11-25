@@ -246,11 +246,12 @@ erDiagram
 4. The progress screen reads the same attempts, so it's correct offline too.
 
 **Sync** (`POST /api/sync`), started when the app opens, when the connection returns, and after each session.
-1. The phone sends the current student's queued attempts (up to a fixed batch size) and the time of the last attempt it already has from the server.
+1. The phone sends the current student's queued attempts (up to a fixed batch size) and its **pull cursor**: the latest `receivedAt` among the attempts it already has from the server (none on a new phone). The cursor is the server's time, never the phone's `answeredAt`, because an answer made offline can be uploaded long after a newer one.
 2. The server checks the session cookie and the request's origin, rejects attempts whose student isn't the signed-in one, and validates each attempt with Zod.
 3. For each attempt: re-check it, then insert it once. A difference between the phone and the server sets `flagged`.
-4. The server answers with the IDs it stored and with the student's attempts the phone doesn't have yet (for example, after signing in on a new phone).
+4. The server answers with the IDs it stored and with the student's attempts the phone doesn't have yet (for example, after signing in on a new phone, or answers another phone uploaded late): every attempt of that student whose `receivedAt` is later than the cursor minus a short overlap window (a few minutes), ordered by `receivedAt` (index on student and `receivedAt`). The overlap covers two syncs whose transactions commit out of order; the phone drops attempts it already has by ID.
 5. The phone removes the stored IDs from the queue and saves the attempts it received. The sync state on screen updates.
+6. **If the queue still has attempts, the phone sends the next batch at once,** repeating until the queue is empty. If a batch fails (no connection, a server error), the attempts not yet stored stay in the queue for the next sync.
 
 A `401` (expired or revoked session) keeps the queue and asks the student to sign in again.
 

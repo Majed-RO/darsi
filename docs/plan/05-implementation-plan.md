@@ -84,6 +84,7 @@ Every day follows the same routine, usually twice: once per PR.
 ### Merge (about 5 minutes)
 
 19. When CI is green, CodeRabbit has posted its review, and every conversation is resolved, click **Squash and merge**, and check that the commit title is the PR title.
+    - **Before CI exists** (the replanning PR and PR 1), there's no CI to be green: those PRs merge when their local checks pass (PR 1's lint, type check and lint-rule tests), CodeRabbit has posted its review, and every conversation is resolved. From PR 2 on, green CI is required (repo and workflow, section 1).
     - There's **no "Approve" step**: GitHub doesn't let you approve your own PR, so green CI, CodeRabbit's review and resolved conversations are the gate. GitHub doesn't enforce the review itself, so check that it's there.
 20. Merging deploys the private Stage A deployment automatically, and "Closes #…" closes the issue. Check that the deployment succeeded.
 21. If the plan marks a tag after this PR, run `gh release create <version> --generate-notes`.

@@ -7,7 +7,7 @@
 ## 1. Goals
 
 1. **Nothing private ever reaches the public repo:** `private/`, secrets, real prices, bank details, the family test's data, the owner's real name and email (D-17, D-18, D-40, D-42). Several layers stop it, not just one.
-2. **`main` is always deployable.** Every change after the first commit arrives through a PR with green CI; nobody pushes to `main` directly, including the owner.
+2. **`main` is always deployable.** Every change after the first commit arrives through a PR; nobody pushes to `main` directly, including the owner. Every PR needs green CI once CI exists: the two PRs before it (the replanning PR and PR 1, the app skeleton) merge on the local checks they have, CodeRabbit's review and resolved conversations. The CI gate starts with PR 2, which adds the pipeline, and its checks then become required on `main` (section 7).
 3. **The history tells the story.** One PR per feature, conventional commit titles, ADRs for decisions, so a reviewer can follow how Darsi was built.
 4. **Setup is cheap to repeat** for the private repo at the start of Stage C ([runbook](../runbooks/stage-c-move-to-private-repo.md)).
 

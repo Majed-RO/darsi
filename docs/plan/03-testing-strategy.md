@@ -62,6 +62,8 @@ Time (`now`) and randomness (a seeded generator) are passed in, so every case is
 With `fake-indexeddb`:
 - Answers go into the current student's queue and survive closing and reopening the store.
 - After a sync, only the IDs the server stored leave the queue.
+- A queue larger than one batch is sent in several batches in one sync, until it's empty. If a later batch fails, the attempts not yet stored stay in the queue.
+- The pull cursor is the latest `receivedAt` the phone has from the server, and attempts received twice (from the overlap window) are saved once.
 - Switching student keeps the first student's queue, and the second student's view never includes it.
 - A "not found" student on sync clears that student's queue.
 
@@ -97,7 +99,7 @@ With `fake-indexeddb`:
 | **SQL constraints** | The trigger rejects every `UPDATE` on `Attempt`; `tryNumber` only 1 or 2; unique join code; unique content subject per class; unique student name per class; unique membership per workspace and user; unique session token hash |
 | **Sync: no duplicates** | The same attempt sent twice is stored once. Two syncs of the same batch at the same moment store each attempt once. A batch above the limit is refused |
 | **Sync: re-check** | A right answer is stored as right on both sides. A phone result that differs from the server's is stored with the server's result and flagged. An attempt made with an outdated template version gets `serverCorrect = null` and is flagged. Parameters that don't match the seed are flagged |
-| **Sync: pull** | The answer includes the student's attempts the phone doesn't have yet, and only that student's |
+| **Sync: pull** | The answer includes the student's attempts the phone doesn't have yet, and only that student's. **Late upload:** phone A pulls an attempt; phone B then uploads an attempt with an earlier `answeredAt`; phone A's next pull receives it |
 | **Sync: sessions** | No session, an expired session or a revoked session gets `401` and stores nothing. A request from another origin is refused |
 | Sessions | Only the token's hash is stored; a PIN reset revokes sessions and makes the PIN temporary again |
 | **Choosing a PIN (D-45)** | Signing in with a temporary PIN creates no session until a new PIN is chosen; a new PIN equal to the temporary one is refused; after it's chosen, the temporary PIN no longer works; no use case returns a student's PIN or its hash to a teacher |

@@ -98,7 +98,7 @@ Don't keep the public repo as a second remote, so private work can never be push
 Do the README change **first**, because an archived repo is read-only.
 
 - [ ] Add a notice at the top of the public README: *"This repository is a snapshot of Darsi's Stages A and B. Development continues privately."* Keep the screenshots (synthetic data only) and the architecture overview, and the demo link if a public demo exists, since reviewers still read this repo.
-- [ ] Commit and push that change to the public repo.
+- [ ] Make that change **in the public repo only**, never from your working copy, which now points at the private repo (section 4): either with GitHub's web editor, or in a fresh clone of the public repo. The `main` ruleset blocks direct pushes, so put it on a new branch and open a PR. Change only the README, so the public `LICENSE` (FSL) stays as it is. Merge it, then delete that clone.
 - [ ] Archive it:
 
 ```bash

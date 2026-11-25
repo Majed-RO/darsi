@@ -145,7 +145,7 @@ There's no admin area in Stage A: there are no payments, trials or subscriptions
 ### 10. Privacy and data (D-30, D-40)
 
 - First names only. No birth date, school or phone number.
-- Student data never leaves the database: not in the repo, logs, screenshots or any AI prompt.
+- Student data stays in Darsi's own storage: the database, and the student's phone for offline practice and sync (D-36). It never goes into the repo, logs, screenshots or any AI prompt (D-48).
 - No student data is sent to any AI; students don't interact with AI.
 - A private deployment. Seed and test data are synthetic, written from scratch in Arabic.
 
